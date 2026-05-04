@@ -1,0 +1,11 @@
+C:\Users\rkadl\source\repos\CookBook\CookBook\bin\Debug\net9.0\CookBook.Domain.deps.json
+C:\Users\rkadl\source\repos\CookBook\CookBook\bin\Debug\net9.0\CookBook.Domain.dll
+C:\Users\rkadl\source\repos\CookBook\CookBook\bin\Debug\net9.0\CookBook.Domain.pdb
+C:\Users\rkadl\source\repos\CookBook\CookBook\obj\Debug\net9.0\CookBook.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rkadl\source\repos\CookBook\CookBook\obj\Debug\net9.0\CookBook.Domain.AssemblyInfoInputs.cache
+C:\Users\rkadl\source\repos\CookBook\CookBook\obj\Debug\net9.0\CookBook.Domain.AssemblyInfo.cs
+C:\Users\rkadl\source\repos\CookBook\CookBook\obj\Debug\net9.0\CookBook.Domain.csproj.CoreCompileInputs.cache
+C:\Users\rkadl\source\repos\CookBook\CookBook\obj\Debug\net9.0\CookBook.Domain.dll
+C:\Users\rkadl\source\repos\CookBook\CookBook\obj\Debug\net9.0\refint\CookBook.Domain.dll
+C:\Users\rkadl\source\repos\CookBook\CookBook\obj\Debug\net9.0\CookBook.Domain.pdb
+C:\Users\rkadl\source\repos\CookBook\CookBook\obj\Debug\net9.0\ref\CookBook.Domain.dll

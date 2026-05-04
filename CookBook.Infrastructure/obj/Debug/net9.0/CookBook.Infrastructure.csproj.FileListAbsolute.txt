@@ -1,0 +1,15 @@
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\bin\Debug\net9.0\CookBook.Infrastructure.deps.json
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\bin\Debug\net9.0\CookBook.Infrastructure.dll
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\bin\Debug\net9.0\CookBook.Infrastructure.pdb
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\bin\Debug\net9.0\CookBook.Domain.dll
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\bin\Debug\net9.0\CookBook.Domain.pdb
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\obj\Debug\net9.0\CookBook.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\obj\Debug\net9.0\CookBook.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\obj\Debug\net9.0\CookBook.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\obj\Debug\net9.0\CookBook.Infrastructure.AssemblyInfo.cs
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\obj\Debug\net9.0\CookBook.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\obj\Debug\net9.0\CookBook.BBF553E8.Up2Date
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\obj\Debug\net9.0\CookBook.Infrastructure.dll
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\obj\Debug\net9.0\refint\CookBook.Infrastructure.dll
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\obj\Debug\net9.0\CookBook.Infrastructure.pdb
+C:\Users\rkadl\source\repos\CookBook\CookBook.Infrastructure\obj\Debug\net9.0\ref\CookBook.Infrastructure.dll
