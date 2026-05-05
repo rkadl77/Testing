@@ -1,0 +1,11 @@
+C:\Users\rkadl\source\repos\RecipeBook\RecipeBook.Core\bin\Debug\net8.0\RecipeBook.Core.deps.json
+C:\Users\rkadl\source\repos\RecipeBook\RecipeBook.Core\bin\Debug\net8.0\RecipeBook.Core.dll
+C:\Users\rkadl\source\repos\RecipeBook\RecipeBook.Core\bin\Debug\net8.0\RecipeBook.Core.pdb
+C:\Users\rkadl\source\repos\RecipeBook\RecipeBook.Core\obj\Debug\net8.0\RecipeBook.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rkadl\source\repos\RecipeBook\RecipeBook.Core\obj\Debug\net8.0\RecipeBook.Core.AssemblyInfoInputs.cache
+C:\Users\rkadl\source\repos\RecipeBook\RecipeBook.Core\obj\Debug\net8.0\RecipeBook.Core.AssemblyInfo.cs
+C:\Users\rkadl\source\repos\RecipeBook\RecipeBook.Core\obj\Debug\net8.0\RecipeBook.Core.csproj.CoreCompileInputs.cache
+C:\Users\rkadl\source\repos\RecipeBook\RecipeBook.Core\obj\Debug\net8.0\RecipeBook.Core.dll
+C:\Users\rkadl\source\repos\RecipeBook\RecipeBook.Core\obj\Debug\net8.0\refint\RecipeBook.Core.dll
+C:\Users\rkadl\source\repos\RecipeBook\RecipeBook.Core\obj\Debug\net8.0\RecipeBook.Core.pdb
+C:\Users\rkadl\source\repos\RecipeBook\RecipeBook.Core\obj\Debug\net8.0\ref\RecipeBook.Core.dll
