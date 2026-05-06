@@ -26,14 +26,12 @@ public class DishesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateDishDto dto)
     {
-        // Загружаем продукты по Id
         var productIds = dto.Ingredients.Select(i => i.ProductId).ToList();
         var products = await _db.Products.Where(p => productIds.Contains(p.Id)).ToListAsync();
 
         if (products.Count != productIds.Count)
             return BadRequest("Некоторые продукты не найдены");
 
-        // Строим состав блюда
         var dishProducts = dto.Ingredients.Select(i =>
         {
             var product = products.First(p => p.Id == i.ProductId);
@@ -62,23 +60,27 @@ public class DishesController : ControllerBase
         dish.Fats = dto.Fats ?? fats;
         dish.Carbs = dto.Carbs ?? carbs;
 
+        // Проверка суммы БЖУ на 100г
+        if (!_validator.IsBjuSumValid(dish))
+            return BadRequest("Сумма БЖУ на 100г не может превышать 100");
+
         // Обработка макросов в названии
         var macroCategory = _validator.ExtractCategoryFromName(dto.Name);
         dish.Name = _validator.RemoveCategoryMacros(dto.Name);
 
-        // Категория: если явно указана — берём её, иначе из макроса
+        // Категория
         if (!string.IsNullOrEmpty(dto.Category))
-            dish.Category = Enum.Parse<DishCategory>(dto.Category);
+            dish.Category = Enum.Parse<DishCategory>(dto.Category.Replace(" ", ""), true);
         else if (macroCategory != null)
             dish.Category = Enum.Parse<DishCategory>(macroCategory);
         else
             return BadRequest("Не указана категория блюда");
 
-        // Флаги — только доступные
+        // Флаги
         var availableFlags = _validator.GetAvailableFlags(dish);
         if (!string.IsNullOrEmpty(dto.Flags))
         {
-            var requestedFlags = Enum.Parse<ProductFlags>(dto.Flags);
+            var requestedFlags = Enum.Parse<ProductFlags>(dto.Flags.Replace(" ", ""), true);
             if ((requestedFlags & ~availableFlags) != 0)
                 return BadRequest($"Некоторые флаги недоступны. Доступные: {availableFlags}");
             dish.Flags = requestedFlags;
@@ -102,18 +104,18 @@ public class DishesController : ControllerBase
             .ThenInclude(dp => dp.Product)
             .AsQueryable();
 
-        // Фильтрация по категории
         if (!string.IsNullOrEmpty(category))
-            query = query.Where(d => d.Category == Enum.Parse<DishCategory>(category));
-
-        // Фильтрация по флагам
-        if (!string.IsNullOrEmpty(flags))
         {
-            var flag = Enum.Parse<ProductFlags>(flags);
-            query = query.Where(d => d.Flags.HasFlag(flag));
+            var cat = Enum.Parse<DishCategory>(category.Replace(" ", ""), true);
+            query = query.Where(d => d.Category == cat);
         }
 
-        // Поиск по названию
+        if (!string.IsNullOrEmpty(flags))
+        {
+            var flag = Enum.Parse<ProductFlags>(flags.Replace(" ", ""), true);
+            query = query.Where(d => (d.Flags & flag) == flag);
+        }
+
         if (!string.IsNullOrEmpty(search))
             query = query.Where(d => d.Name.ToLower().Contains(search.ToLower()));
 
@@ -148,7 +150,6 @@ public class DishesController : ControllerBase
         if (dish == null)
             return NotFound();
 
-        // Обновляем состав
         _db.DishProducts.RemoveRange(dish.DishProducts);
 
         var productIds = dto.Ingredients.Select(i => i.ProductId).ToList();
@@ -174,35 +175,33 @@ public class DishesController : ControllerBase
         dish.PortionSize = dto.PortionSize;
         dish.UpdatedAt = DateTime.UtcNow;
 
-        // Авторасчёт КБЖУ
         var (cal, prot, fats, carbs) = _calculator.Calculate(dish);
         dish.Calories = dto.Calories ?? cal;
         dish.Proteins = dto.Proteins ?? prot;
         dish.Fats = dto.Fats ?? fats;
         dish.Carbs = dto.Carbs ?? carbs;
 
-        // Макросы в названии
+        if (!_validator.IsBjuSumValid(dish))
+            return BadRequest("Сумма БЖУ на 100г не может превышать 100");
+
         var macroCategory = _validator.ExtractCategoryFromName(dto.Name);
         dish.Name = _validator.RemoveCategoryMacros(dto.Name);
 
-        // Категория
         if (!string.IsNullOrEmpty(dto.Category))
-            dish.Category = Enum.Parse<DishCategory>(dto.Category);
+            dish.Category = Enum.Parse<DishCategory>(dto.Category.Replace(" ", ""), true);
         else if (macroCategory != null)
             dish.Category = Enum.Parse<DishCategory>(macroCategory);
 
-        // Флаги — пересчитываем доступные, снимаем недоступные
         var availableFlags = _validator.GetAvailableFlags(dish);
         if (!string.IsNullOrEmpty(dto.Flags))
         {
-            var requestedFlags = Enum.Parse<ProductFlags>(dto.Flags);
+            var requestedFlags = Enum.Parse<ProductFlags>(dto.Flags.Replace(" ", ""), true);
             if ((requestedFlags & ~availableFlags) != 0)
                 return BadRequest($"Некоторые флаги недоступны. Доступные: {availableFlags}");
             dish.Flags = requestedFlags;
         }
         else
         {
-            // Снимаем флаги, которые больше не доступны
             dish.Flags &= availableFlags;
         }
 
