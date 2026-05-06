@@ -132,4 +132,3 @@ C:\Users\rkadl\source\repos\RecipeBook\RecipeBook\obj\Debug\net8.0\refint\Recipe
 C:\Users\rkadl\source\repos\RecipeBook\RecipeBook\obj\Debug\net8.0\RecipeBook.pdb
 C:\Users\rkadl\source\repos\RecipeBook\RecipeBook\obj\Debug\net8.0\RecipeBook.genruntimeconfig.cache
 C:\Users\rkadl\source\repos\RecipeBook\RecipeBook\obj\Debug\net8.0\ref\RecipeBook.dll
-C:\Users\rkadl\source\repos\RecipeBook\RecipeBook\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
