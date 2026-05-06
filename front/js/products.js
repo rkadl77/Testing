@@ -1,6 +1,5 @@
 let editingId = null;
 
-// Загрузка списка продуктов
 async function loadProducts() {
     const search = document.getElementById('search').value;
     const category = document.getElementById('filterCategory').value;
@@ -29,6 +28,7 @@ function renderTable(products) {
     const tbody = document.querySelector('#productsTable tbody');
     tbody.innerHTML = products.map(p => `
         <tr>
+            <td>${p.photos?.length > 0 ? `<img src="${p.photos[0]}" width="50" onerror="this.style.display='none'">` : '—'}</td>
             <td>${p.name}</td>
             <td>${p.calories}</td>
             <td>${p.proteins}</td>
@@ -59,6 +59,7 @@ async function showEditForm(id) {
         document.getElementById('modalTitle').textContent = 'Редактировать продукт';
         document.getElementById('productId').value = product.id;
         document.getElementById('name').value = product.name;
+        document.getElementById('photos').value = (product.photos || []).join(', ');
         document.getElementById('calories').value = product.calories;
         document.getElementById('proteins').value = product.proteins;
         document.getElementById('fats').value = product.fats;
@@ -88,12 +89,17 @@ function getFlagsString() {
     return flags.join(', ');
 }
 
+function getPhotosArray() {
+    const val = document.getElementById('photos').value;
+    return val ? val.split(',').map(s => s.trim()).filter(s => s) : [];
+}
+
 document.getElementById('productForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const data = {
         name: document.getElementById('name').value,
-        photos: [],
+        photos: getPhotosArray(),
         calories: parseFloat(document.getElementById('calories').value),
         proteins: parseFloat(document.getElementById('proteins').value),
         fats: parseFloat(document.getElementById('fats').value),
@@ -127,5 +133,4 @@ async function deleteProduct(id) {
     }
 }
 
-// Загрузка при открытии страницы
 loadProducts();

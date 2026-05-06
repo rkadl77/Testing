@@ -1,7 +1,6 @@
 let editingId = null;
 let allProducts = [];
 
-// Загрузка всех продуктов для выпадающих списков
 async function loadAllProducts() {
     try {
         allProducts = await apiGet('/Products');
@@ -31,21 +30,30 @@ function addIngredientRow() {
             <option value="">Выберите продукт...</option>
         </select>
         <input type="number" class="quantity-input" placeholder="Граммы" step="0.1" min="0.1" style="width:100px;">
-        <button type="button" class="danger" onclick="this.parentElement.remove()">✕</button>
+        <button type="button" class="danger" onclick="removeIngredientRow(this)">✕</button>
     `;
     document.getElementById('ingredients').appendChild(div);
     populateProductSelects();
+
+    // Авторасчёт при изменении ингредиента
+    div.querySelector('.product-select').addEventListener('change', autoCalculate);
+    div.querySelector('.quantity-input').addEventListener('input', autoCalculate);
+    div.querySelector('.quantity-input').addEventListener('change', autoCalculate);
 }
 
-// Автоматический расчёт КБЖУ на основе состава
+function removeIngredientRow(btn) {
+    btn.parentElement.remove();
+    autoCalculate();
+}
+
 function autoCalculate() {
     let totalCal = 0, totalProt = 0, totalFat = 0, totalCarbs = 0;
     const rows = document.querySelectorAll('.ingredient-row');
 
     rows.forEach(row => {
-        const productId = row.querySelector('.product-select').value;
-        const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
-        
+        const productId = row.querySelector('.product-select')?.value;
+        const quantity = parseFloat(row.querySelector('.quantity-input')?.value) || 0;
+
         if (productId && quantity > 0) {
             const product = allProducts.find(p => p.id === productId);
             if (product) {
@@ -74,7 +82,7 @@ async function loadDishes() {
     if (search) params.push(`search=${search}`);
 
     const query = params.length ? '?' + params.join('&') : '';
-    
+
     try {
         const dishes = await apiGet(`/Dishes${query}`);
         renderTable(dishes);
@@ -87,6 +95,7 @@ function renderTable(dishes) {
     const tbody = document.querySelector('#dishesTable tbody');
     tbody.innerHTML = dishes.map(d => `
         <tr>
+            <td>${d.photos?.length > 0 ? `<img src="${d.photos[0]}" width="50" onerror="this.style.display='none'">` : '—'}</td>
             <td>${d.name}</td>
             <td>${d.calories}</td>
             <td>${d.proteins}</td>
@@ -108,12 +117,14 @@ async function showCreateForm() {
     document.getElementById('modalTitle').textContent = 'Новое блюдо';
     document.getElementById('dishForm').reset();
     document.getElementById('dishId').value = '';
-    
-    // Очищаем и добавляем одну строку ингредиентов
+    document.getElementById('photos').value = '';
+    document.getElementById('calories').value = '';
+    document.getElementById('proteins').value = '';
+    document.getElementById('fats').value = '';
+    document.getElementById('carbs').value = '';
     document.getElementById('ingredients').innerHTML = '';
     addIngredientRow();
     populateProductSelects();
-    
     document.getElementById('dishModal').style.display = 'flex';
 }
 
@@ -121,10 +132,11 @@ async function showEditForm(id) {
     try {
         const dish = await apiGet(`/Dishes/${id}`);
         editingId = id;
-        
+
         document.getElementById('modalTitle').textContent = 'Редактировать блюдо';
         document.getElementById('dishId').value = dish.id;
         document.getElementById('name').value = dish.name;
+        document.getElementById('photos').value = (dish.photos || []).join(', ');
         document.getElementById('portionSize').value = dish.portionSize;
         document.getElementById('category').value = dish.category;
         document.getElementById('calories').value = dish.calories;
@@ -136,7 +148,6 @@ async function showEditForm(id) {
         document.getElementById('flagGluten').checked = dish.flags.includes('Без_глютена');
         document.getElementById('flagSugar').checked = dish.flags.includes('Без_сахара');
 
-        // Заполняем ингредиенты
         document.getElementById('ingredients').innerHTML = '';
         dish.ingredients.forEach(ing => {
             addIngredientRow();
@@ -145,11 +156,9 @@ async function showEditForm(id) {
             lastRow.querySelector('.product-select').value = ing.productId;
             lastRow.querySelector('.quantity-input').value = ing.quantity;
         });
-        // Добавляем пустую строку для новых ингредиентов
         if (dish.ingredients.length === 0) addIngredientRow();
-        
-        populateProductSelects();
 
+        populateProductSelects();
         document.getElementById('dishModal').style.display = 'flex';
     } catch (e) {
         alert(e.message);
@@ -165,15 +174,20 @@ function getFlagsString() {
     if (document.getElementById('flagVegan').checked) flags.push('Веган');
     if (document.getElementById('flagGluten').checked) flags.push('Без_глютена');
     if (document.getElementById('flagSugar').checked) flags.push('Без_сахара');
-    return flags.join(', ');
+    return flags.join(',');
+}
+
+function getPhotosArray() {
+    const val = document.getElementById('photos').value;
+    return val ? val.split(',').map(s => s.trim()).filter(s => s) : [];
 }
 
 function getIngredients() {
     const ingredients = [];
     const rows = document.querySelectorAll('.ingredient-row');
     rows.forEach(row => {
-        const productId = row.querySelector('.product-select').value;
-        const quantity = parseFloat(row.querySelector('.quantity-input').value);
+        const productId = row.querySelector('.product-select')?.value;
+        const quantity = parseFloat(row.querySelector('.quantity-input')?.value);
         if (productId && quantity > 0) {
             ingredients.push({ productId, quantity });
         }
@@ -181,9 +195,13 @@ function getIngredients() {
     return ingredients;
 }
 
+// Автопересчёт КБЖУ при изменении размера порции
+document.getElementById('portionSize').addEventListener('input', autoCalculate);
+document.getElementById('portionSize').addEventListener('change', autoCalculate);
+
 document.getElementById('dishForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const ingredients = getIngredients();
     if (ingredients.length === 0) {
         alert('Добавьте хотя бы один продукт в состав блюда');
@@ -191,10 +209,10 @@ document.getElementById('dishForm').addEventListener('submit', async (e) => {
     }
 
     const categoryValue = document.getElementById('category').value;
-    
+
     const data = {
         name: document.getElementById('name').value,
-        photos: [],
+        photos: getPhotosArray(),
         portionSize: parseFloat(document.getElementById('portionSize').value),
         calories: parseFloat(document.getElementById('calories').value) || null,
         proteins: parseFloat(document.getElementById('proteins').value) || null,
@@ -228,6 +246,5 @@ async function deleteDish(id) {
     }
 }
 
-// Инициализация
 loadAllProducts();
 loadDishes();

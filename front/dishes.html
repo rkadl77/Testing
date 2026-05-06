@@ -16,7 +16,6 @@
         </nav>
     </header>
     <main>
-        <!-- Панель инструментов -->
         <div class="toolbar">
             <input type="text" id="search" placeholder="Поиск по названию..." oninput="loadDishes()">
             <select id="filterCategory" onchange="loadDishes()">
@@ -38,10 +37,10 @@
             <button onclick="showCreateForm()">+ Новое блюдо</button>
         </div>
 
-        <!-- Таблица блюд -->
         <table id="dishesTable">
             <thead>
                 <tr>
+                    <th>Фото</th>
                     <th>Название</th>
                     <th>Калории</th>
                     <th>Белки</th>
@@ -56,7 +55,6 @@
             <tbody></tbody>
         </table>
 
-        <!-- Модальное окно создания/редактирования -->
         <div class="modal" id="dishModal">
             <div class="modal-content" style="max-width: 700px;">
                 <h2 id="modalTitle">Новое блюдо</h2>
@@ -65,6 +63,9 @@
                     
                     <label>Название (можно с макросом: !суп, !первое и т.д.):</label>
                     <input type="text" id="name" required minlength="2">
+                    
+                    <label>Фото (ссылки через запятую):</label>
+                    <input type="text" id="photos" placeholder="https://...">
                     
                     <label>Размер порции (г):</label>
                     <input type="number" id="portionSize" required min="0.1" step="0.1" value="500">
@@ -81,7 +82,6 @@
                         <option value="Перекус">Перекус</option>
                     </select>
 
-                    <!-- Автоматически рассчитанные КБЖУ (можно скорректировать) -->
                     <label>Калории (авторасчёт, можно изменить):</label>
                     <input type="number" id="calories" step="0.1" min="0">
                     
@@ -101,7 +101,6 @@
                         <input type="checkbox" id="flagSugar"> Без сахара
                     </div>
 
-                    <!-- Состав блюда -->
                     <h3>Состав блюда</h3>
                     <div id="ingredients">
                         <div class="ingredient-row" style="display:flex; gap:10px; margin-bottom:5px;">
