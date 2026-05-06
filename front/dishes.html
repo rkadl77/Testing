@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Блюда — Книга рецептов</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>🍽️ Блюда</h1>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="products.html">Продукты</a>
+            <a href="dishes.html">Блюда</a>
+        </nav>
+    </header>
+    <main>
+        <!-- Панель инструментов -->
+        <div class="toolbar">
+            <input type="text" id="search" placeholder="Поиск по названию..." oninput="loadDishes()">
+            <select id="filterCategory" onchange="loadDishes()">
+                <option value="">Все категории</option>
+                <option value="Десерт">Десерт</option>
+                <option value="Первое">Первое</option>
+                <option value="Второе">Второе</option>
+                <option value="Напиток">Напиток</option>
+                <option value="Салат">Салат</option>
+                <option value="Суп">Суп</option>
+                <option value="Перекус">Перекус</option>
+            </select>
+            <select id="filterFlags" onchange="loadDishes()">
+                <option value="">Все флаги</option>
+                <option value="Веган">Веган</option>
+                <option value="Без_глютена">Без глютена</option>
+                <option value="Без_сахара">Без сахара</option>
+            </select>
+            <button onclick="showCreateForm()">+ Новое блюдо</button>
+        </div>
+
+        <!-- Таблица блюд -->
+        <table id="dishesTable">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Калории</th>
+                    <th>Белки</th>
+                    <th>Жиры</th>
+                    <th>Углеводы</th>
+                    <th>Порция (г)</th>
+                    <th>Категория</th>
+                    <th>Флаги</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- Модальное окно создания/редактирования -->
+        <div class="modal" id="dishModal">
+            <div class="modal-content" style="max-width: 700px;">
+                <h2 id="modalTitle">Новое блюдо</h2>
+                <form id="dishForm">
+                    <input type="hidden" id="dishId">
+                    
+                    <label>Название (можно с макросом: !суп, !первое и т.д.):</label>
+                    <input type="text" id="name" required minlength="2">
+                    
+                    <label>Размер порции (г):</label>
+                    <input type="number" id="portionSize" required min="0.1" step="0.1" value="500">
+                    
+                    <label>Категория (если не указан макрос):</label>
+                    <select id="category">
+                        <option value="">Из макроса / выбрать</option>
+                        <option value="Десерт">Десерт</option>
+                        <option value="Первое">Первое</option>
+                        <option value="Второе">Второе</option>
+                        <option value="Напиток">Напиток</option>
+                        <option value="Салат">Салат</option>
+                        <option value="Суп">Суп</option>
+                        <option value="Перекус">Перекус</option>
+                    </select>
+
+                    <!-- Автоматически рассчитанные КБЖУ (можно скорректировать) -->
+                    <label>Калории (авторасчёт, можно изменить):</label>
+                    <input type="number" id="calories" step="0.1" min="0">
+                    
+                    <label>Белки (авторасчёт, можно изменить):</label>
+                    <input type="number" id="proteins" step="0.1" min="0">
+                    
+                    <label>Жиры (авторасчёт, можно изменить):</label>
+                    <input type="number" id="fats" step="0.1" min="0">
+                    
+                    <label>Углеводы (авторасчёт, можно изменить):</label>
+                    <input type="number" id="carbs" step="0.1" min="0">
+
+                    <label>Флаги (только доступные):</label>
+                    <div>
+                        <input type="checkbox" id="flagVegan"> Веган
+                        <input type="checkbox" id="flagGluten"> Без глютена
+                        <input type="checkbox" id="flagSugar"> Без сахара
+                    </div>
+
+                    <!-- Состав блюда -->
+                    <h3>Состав блюда</h3>
+                    <div id="ingredients">
+                        <div class="ingredient-row" style="display:flex; gap:10px; margin-bottom:5px;">
+                            <select class="product-select" style="flex:1;">
+                                <option value="">Выберите продукт...</option>
+                            </select>
+                            <input type="number" class="quantity-input" placeholder="Граммы" step="0.1" min="0.1" style="width:100px;">
+                            <button type="button" class="danger" onclick="this.parentElement.remove()">✕</button>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addIngredientRow()">+ Добавить продукт</button>
+
+                    <div style="margin-top:15px;">
+                        <button type="button" onclick="autoCalculate()">🔄 Авторасчёт КБЖУ</button>
+                        <button type="submit">Сохранить</button>
+                        <button type="button" onclick="closeModal()">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="js/api.js"></script>
+    <script src="js/dishes.js"></script>
+</body>
+</html>
