@@ -39,7 +39,8 @@ public class ProductsController : ControllerBase
             Flags = Enum.Parse<ProductFlags>(dto.Flags),
             CreatedAt = DateTime.UtcNow
         };
-
+        if (product.Photos.Count > 5)
+            return BadRequest("Нельзя добавить более 5 фото");
         if (!_validator.IsBjuSumValid(product))
             return BadRequest("Сумма БЖУ на 100г не может превышать 100");
 
@@ -128,6 +129,8 @@ public class ProductsController : ControllerBase
         product.Flags = Enum.Parse<ProductFlags>(dto.Flags);
         product.UpdatedAt = DateTime.UtcNow;
 
+        if (product.Photos.Count > 5)
+            return BadRequest("Нельзя добавить более 5 фото");
         if (!_validator.IsBjuSumValid(product))
             return BadRequest("Сумма БЖУ на 100г не может превышать 100");
 

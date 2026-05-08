@@ -3,28 +3,17 @@ using RecipeBook.Core.Services;
 
 namespace RecipeBook.UnitTests.Services;
 
-/// Unit-тесты для сервиса автоматического расчёта КБЖУ блюда (CalorieCalculator).
-/// Используются техники тест-дизайна:
-//  - Эквивалентное разбиение (пустой состав, один продукт, несколько продуктов)
-//  - Анализ граничных значений (количество = 0, 100, 0.1, 10000)
-/// 
-/// Дополнительно:
-//  - Параметризованные тесты (Theory + InlineData) для граничных значений
-//   - Setup через конструктор (создание экземпляра CalorieCalculator)
-//   - Вспомогательный фабричный метод CreateProduct для чистоты Arrange
 public class CalorieCalculatorTests
 {
     private readonly CalorieCalculator _calculator;
 
     public CalorieCalculatorTests()
     {
-        // Setup: выполняется перед каждым тестом
         _calculator = new CalorieCalculator();
     }
 
-    #region Вспомогательные методы (фабрики)
+    #region Фабрики
 
-    /// Создаёт продукт с указанными КБЖУ. Остальные поля — значения по умолчанию.
     private static Product CreateProduct(double calories, double proteins, double fats, double carbs)
     {
         return new Product
@@ -36,7 +25,6 @@ public class CalorieCalculatorTests
         };
     }
 
-    /// Создаёт блюдо из списка кортежей (продукт, количество в граммах).
     private static Dish CreateDish(params (Product product, double quantity)[] ingredients)
     {
         return new Dish
@@ -51,175 +39,278 @@ public class CalorieCalculatorTests
 
     #region Эквивалентное разбиение
 
-    /// Класс эквивалентности: пустой состав блюда.
-    /// Ожидаемый результат: КБЖУ = (0, 0, 0, 0).
+    /// <summary>Пустой состав → КБЖУ = (0, 0, 0, 0). Класс: нет продуктов.</summary>
     [Fact]
     public void Calculate_EmptyIngredients_ReturnsZero()
     {
-        // Arrange
         var dish = new Dish { DishProducts = new List<DishProduct>() };
-
-        // Act
-        var (calories, proteins, fats, carbs) = _calculator.Calculate(dish);
-
-        // Assert
-        Assert.Equal(0, calories);
-        Assert.Equal(0, proteins);
-        Assert.Equal(0, fats);
-        Assert.Equal(0, carbs);
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(0, c);
+        Assert.Equal(0, p);
+        Assert.Equal(0, f);
+        Assert.Equal(0, cb);
     }
 
-    /// Класс эквивалентности: null-состав блюда (защита от NullReferenceException).
-    /// Ожидаемый результат: КБЖУ = (0, 0, 0, 0).
+    /// <summary>Null-состав → нет исключения, КБЖУ = (0, 0, 0, 0). Класс: null.</summary>
     [Fact]
     public void Calculate_NullIngredients_ReturnsZero()
     {
-        // Arrange
         var dish = new Dish { DishProducts = null! };
-
-        // Act
-        var (calories, proteins, fats, carbs) = _calculator.Calculate(dish);
-
-        // Assert
-        Assert.Equal(0, calories);
-        Assert.Equal(0, proteins);
-        Assert.Equal(0, fats);
-        Assert.Equal(0, carbs);
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(0, p);
+        Assert.Equal(0, f);
+        Assert.Equal(0, c);
+        Assert.Equal(0, cb);
     }
 
-    /// Класс эквивалентности: один продукт с ненулевыми КБЖУ.
-    /// Ожидаемый результат: КБЖУ пропорциональны количеству (quantity / 100).
+    /// <summary>Один продукт 50g → КБЖУ = значения × 0.5. Класс: один продукт.</summary>
     [Fact]
     public void Calculate_SingleProduct_ReturnsCorrectValues()
     {
-        // Arrange
-        var product = CreateProduct(calories: 200, proteins: 20, fats: 10, carbs: 15);
+        var product = CreateProduct(200, 20, 10, 15);
         var dish = CreateDish((product, 50));
-
-        // Act
-        var (calories, proteins, fats, carbs) = _calculator.Calculate(dish);
-
-        // Assert: коэффициент 50/100 = 0.5
-        Assert.Equal(100, calories);
-        Assert.Equal(10, proteins);
-        Assert.Equal(5, fats);
-        Assert.Equal(7.5, carbs);
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(100, c);
+        Assert.Equal(10, p);
+        Assert.Equal(5, f);
+        Assert.Equal(7.5, cb);
     }
-    /// Класс эквивалентности: продукт с нулевыми КБЖУ (например, вода) в составе с обычным продуктом.
-    /// Ожидаемый результат: нулевые КБЖУ от воды, обычные — от второго продукта.
+
+    /// <summary>Вода (КБЖУ=0) + картофель → вода не даёт вклада. Класс: нулевой продукт.</summary>
     [Fact]
     public void Calculate_ProductWithZeroNutrition_ReturnsZeroForThatProduct()
     {
-        // Arrange
-        var water = CreateProduct(calories: 0, proteins: 0, fats: 0, carbs: 0);
-        var potato = CreateProduct(calories: 77, proteins: 2, fats: 0.4, carbs: 16.3);
+        var water = CreateProduct(0, 0, 0, 0);
+        var potato = CreateProduct(77, 2, 0.4, 16.3);
         var dish = CreateDish((water, 300), (potato, 200));
-
-        // Act
-        var (calories, proteins, fats, carbs) = _calculator.Calculate(dish);
-
-        // Assert: вода не даёт вклада, картофель: 77*2, 2*2, 0.4*2, 16.3*2
-        Assert.Equal(154, calories);
-        Assert.Equal(4, proteins);
-        Assert.Equal(0.8, fats);
-        Assert.Equal(32.6, carbs);
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(154, c);
+        Assert.Equal(4, p);
+        Assert.Equal(0.8, f);
+        Assert.Equal(32.6, cb);
     }
-    /// Класс эквивалентности: несколько продуктов (реальный пример — борщ из ТЗ).
-    /// Проверка на соответствие эталонным значениям КБЖУ.
+
+    /// <summary>Борщ из ТЗ (3 продукта) → проверка эталонных КБЖУ. Класс: несколько продуктов.</summary>
     [Fact]
     public void Calculate_MultipleProducts_ReturnsCorrectSum()
     {
-        var potato = CreateProduct(calories: 77, proteins: 2, fats: 0.4, carbs: 16.3);
-        var water = CreateProduct(calories: 0, proteins: 0, fats: 0, carbs: 0);
-        var meat = CreateProduct(calories: 187.2, proteins: 18.9, fats: 12.4, carbs: 0);
+        var potato = CreateProduct(77, 2, 0.4, 16.3);
+        var water = CreateProduct(0, 0, 0, 0);
+        var meat = CreateProduct(187.2, 18.9, 12.4, 0);
         var dish = CreateDish((potato, 150), (water, 250), (meat, 100));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(302.7, c);
+        Assert.Equal(21.9, p);
+        Assert.Equal(13, f);
+        Assert.Equal(24.45, cb);
+    }
 
-        var (calories, proteins, fats, carbs) = _calculator.Calculate(dish);
+    /// <summary>Только калории — белки, жиры, углеводы = 0. Класс: один макронутриент.</summary>
+    [Fact]
+    public void Calculate_ProductWithOnlyCalories_ReturnsOnlyCalories()
+    {
+        var product = CreateProduct(50, 0, 0, 0);
+        var dish = CreateDish((product, 200));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(100, c);
+        Assert.Equal(0, p);
+        Assert.Equal(0, f);
+        Assert.Equal(0, cb);
+    }
 
-        // как в ТЗ для борща
-        Assert.Equal(302.7, calories);
-        Assert.Equal(21.9, proteins);
-        Assert.Equal(13, fats);
-        Assert.Equal(24.45, carbs);
+    /// <summary>Только белки — остальные макронутриенты = 0.</summary>
+    [Fact]
+    public void Calculate_ProductWithOnlyProteins_ReturnsOnlyProteins()
+    {
+        var product = CreateProduct(0, 30, 0, 0);
+        var dish = CreateDish((product, 150));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(0, c);
+        Assert.Equal(45, p);
+        Assert.Equal(0, f);
+        Assert.Equal(0, cb);
+    }
+
+    /// <summary>Только жиры — остальные макронутриенты = 0.</summary>
+    [Fact]
+    public void Calculate_ProductWithOnlyFats_ReturnsOnlyFats()
+    {
+        var product = CreateProduct(0, 0, 25, 0);
+        var dish = CreateDish((product, 80));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(0, c);
+        Assert.Equal(0, p);
+        Assert.Equal(20, f);
+        Assert.Equal(0, cb);
+    }
+
+    /// <summary>Только углеводы — остальные макронутриенты = 0.</summary>
+    [Fact]
+    public void Calculate_ProductWithOnlyCarbs_ReturnsOnlyCarbs()
+    {
+        var product = CreateProduct(0, 0, 0, 40);
+        var dish = CreateDish((product, 250));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(0, c);
+        Assert.Equal(0, p);
+        Assert.Equal(0, f);
+        Assert.Equal(100, cb);
     }
 
     #endregion
 
-    #region Анализ граничных значений (параметризованный тест)
+    #region Анализ граничных значений
 
-    /// Параметризованный тест граничных значений количества продукта.
-    /// Проверяет, что КБЖУ корректно пересчитываются при:
-    ///   quantity = 0 (нижняя граница, нулевой вклад)
-    ///   quantity = 0.1 (очень маленькое значение)
-    ///   quantity = 100 (ровно 100 г — коэффициент 1.0)
-    ///   quantity = 10000 (очень большое значение)
-    /// <param name="quantity">Количество продукта в граммах.</param>
-    /// <param name="productCal">Калорийность продукта на 100 г.</param>
-    /// <param name="productProt">Белки продукта на 100 г.</param>
-    /// <param name="productFat">Жиры продукта на 100 г.</param>
-    /// <param name="productCarbs">Углеводы продукта на 100 г.</param>
-    /// <param name="expectedCal">Ожидаемая калорийность порции.</param>
-    /// <param name="expectedProt">Ожидаемые белки порции.</param>
-    /// <param name="expectedFat">Ожидаемые жиры порции.</param>
-    /// <param name="expectedCarbs">Ожидаемые углеводы порции.</param>
+    /// <summary>Граничные количества: 0g (низ), 0.1g (очень мало), 100g (ровно 100), 10000g (очень много).</summary>
+    // параметризованный тест 
     [Theory]
-    [InlineData(0, 100, 10, 5, 20, 0, 0, 0, 0)]        // нулевая quantity
-    [InlineData(0.1, 200, 20, 10, 15, 0.2, 0.02, 0.01, 0.02)]     // очень мало
-    [InlineData(100, 77, 2, 0.4, 16.3, 77, 2, 0.4, 16.3)]     // ровно 100
-    [InlineData(10000, 50, 5, 2.5, 10, 5000, 500, 250, 1000)]     // очень много
+    [InlineData(0, 100, 10, 5, 20, 0, 0, 0, 0)]
+    [InlineData(0.1, 200, 20, 10, 15, 0.2, 0.02, 0.01, 0.02)]
+    [InlineData(100, 77, 2, 0.4, 16.3, 77, 2, 0.4, 16.3)]
+    [InlineData(10000, 50, 5, 2.5, 10, 5000, 500, 250, 1000)]
     public void Calculate_QuantityBoundaries_ReturnsCorrectValues(
-        double quantity,
-        double productCal, double productProt, double productFat, double productCarbs,
-        double expectedCal, double expectedProt, double expectedFat, double expectedCarbs)
+        double q, double pCal, double pProt, double pFat, double pCarbs,
+        double eCal, double eProt, double eFat, double eCarbs)
     {
-
-        var product = CreateProduct(productCal, productProt, productFat, productCarbs);
-        var dish = CreateDish((product, quantity));
-
-        var (calories, proteins, fats, carbs) = _calculator.Calculate(dish);
-
-        Assert.Equal(expectedCal, calories);
-        Assert.Equal(expectedProt, proteins);
-        Assert.Equal(expectedFat, fats);
-        Assert.Equal(expectedCarbs, carbs);
+        var dish = CreateDish((CreateProduct(pCal, pProt, pFat, pCarbs), q));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(eCal, c);
+        Assert.Equal(eProt, p);
+        Assert.Equal(eFat, f);
+        Assert.Equal(eCarbs, cb);
     }
 
-    // Граничное значение: продукт с БЖУ = 100 (максимально допустимая сумма).
-    // Проверка, что граница корректно пересчитывается без ошибок округления.
+    /// <summary>Разные количества продукта → проверка пропорциональности расчёта.</summary>
+    // параметризованный тест 
+    [Theory]
+    [InlineData(50, 200, 20, 10, 15, 100, 10, 5, 7.5)]
+    [InlineData(100, 77, 2, 0.4, 16.3, 77, 2, 0.4, 16.3)]
+    [InlineData(200, 50, 5, 2.5, 10, 100, 10, 5, 20)]
+    [InlineData(75, 100, 10, 5, 20, 75, 7.5, 3.75, 15)]
+    [InlineData(333.33, 30, 3, 3, 3, 100, 10, 10, 10)]
+    public void Calculate_DifferentQuantities_ReturnsProportionalValues(
+        double q, double pCal, double pProt, double pFat, double pCarbs,
+        double eCal, double eProt, double eFat, double eCarbs)
+    {
+        var dish = CreateDish((CreateProduct(pCal, pProt, pFat, pCarbs), q));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(eCal, c);
+        Assert.Equal(eProt, p);
+        Assert.Equal(eFat, f);
+        Assert.Equal(eCarbs, cb);
+    }
+
+    /// <summary>Продукт с БЖУ = 100 (максимально допустимая сумма) → корректный пересчёт.</summary>
     [Fact]
     public void Calculate_MaxBjuProduct_ReturnsCorrectValues()
     {
-        var product = CreateProduct(calories: 400, proteins: 50, fats: 30, carbs: 20);
+        var product = CreateProduct(400, 50, 30, 20);
         var dish = CreateDish((product, 200));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(800, c);
+        Assert.Equal(100, p);
+        Assert.Equal(60, f);
+        Assert.Equal(40, cb);
+    }
 
-        var (calories, proteins, fats, carbs) = _calculator.Calculate(dish);
+    /// <summary>Продукт с БЖУ = 0 (нижняя граница) → все значения 0.</summary>
+    [Fact]
+    public void Calculate_MinBjuProduct_ReturnsZero()
+    {
+        var product = CreateProduct(0, 0, 0, 0);
+        var dish = CreateDish((product, 500));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(0, c);
+        Assert.Equal(0, p);
+        Assert.Equal(0, f);
+        Assert.Equal(0, cb);
+    }
 
-        // коэффициент 200/100 = 2
-        Assert.Equal(800, calories);
-        Assert.Equal(100, proteins);
-        Assert.Equal(60, fats);
-        Assert.Equal(40, carbs);
+    /// <summary>Отрицательное количество продукта → система не падает, результат ≤ 0.</summary>
+    [Fact]
+    public void Calculate_QuantityBelowZero_HandlesCorrectly()
+    {
+        var product = CreateProduct(100, 10, 5, 20);
+        var dish = CreateDish((product, -10));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.True(c <= 0);
     }
 
     #endregion
 
     #region Округление
 
-    /// Проверка округления КБЖУ до двух знаков после запятой.
-    /// Используются значения, дающие длинные десятичные дроби при умножении.
+    /// <summary>Длинные десятичные дроби → округление до 2 знаков.</summary>
     [Fact]
     public void Calculate_RoundingToTwoDecimalPlaces()
     {
-        var product = CreateProduct(calories: 100, proteins: 33.3333, fats: 33.3333, carbs: 33.3333);
+        var product = CreateProduct(100, 33.3333, 33.3333, 33.3333);
         var dish = CreateDish((product, 33.33));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(33.33, c);
+        Assert.Equal(11.11, p);
+        Assert.Equal(11.11, f);
+        Assert.Equal(11.11, cb);
+    }
 
-        var (calories, proteins, fats, carbs) = _calculator.Calculate(dish);
+    /// <summary>Ровно 0.5 → корректное округление без потери точности.</summary>
+    [Fact]
+    public void Calculate_RoundingAtHalf_HandlesCorrectly()
+    {
+        var product = CreateProduct(100, 10, 10, 10);
+        var dish = CreateDish((product, 15));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(15, c);
+        Assert.Equal(1.5, p);
+        Assert.Equal(1.5, f);
+        Assert.Equal(1.5, cb);
+    }
 
-        // округление до 2 знаков
-        Assert.Equal(33.33, calories);
-        Assert.Equal(11.11, proteins);
-        Assert.Equal(11.11, fats);
-        Assert.Equal(11.11, carbs);
+    /// <summary>Очень маленькое значение (1g продукта с 1 единицей КБЖУ) → 0.01.</summary>
+    [Fact]
+    public void Calculate_ManyDecimalPlaces_TruncatesToTwo()
+    {
+        var product = CreateProduct(1, 1, 1, 1);
+        var dish = CreateDish((product, 1));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(0.01, c);
+        Assert.Equal(0.01, p);
+        Assert.Equal(0.01, f);
+        Assert.Equal(0.01, cb);
+    }
+
+    #endregion
+
+    #region Множество продуктов
+
+    /// <summary>5 разных продуктов → проверка суммирования КБЖУ.</summary>
+    [Fact]
+    public void Calculate_FiveDifferentProducts_SumCorrectly()
+    {
+        var p1 = CreateProduct(100, 10, 5, 20);
+        var p2 = CreateProduct(50, 5, 2, 10);
+        var p3 = CreateProduct(200, 20, 10, 30);
+        var p4 = CreateProduct(0, 0, 0, 0);
+        var p5 = CreateProduct(80, 8, 4, 15);
+        var dish = CreateDish((p1, 100), (p2, 50), (p3, 200), (p4, 100), (p5, 75));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(585, c);
+        Assert.Equal(58.5, p);
+        Assert.Equal(29, f);
+        Assert.Equal(96.25, cb);
+    }
+
+    /// <summary>Один и тот же продукт дважды → суммируется как отдельные позиции.</summary>
+    [Fact]
+    public void Calculate_DuplicateProduct_CountsEachSeparately()
+    {
+        var product = CreateProduct(100, 10, 5, 20);
+        var dish = CreateDish((product, 50), (product, 30));
+        var (c, p, f, cb) = _calculator.Calculate(dish);
+        Assert.Equal(80, c);
+        Assert.Equal(8, p);
+        Assert.Equal(4, f);
+        Assert.Equal(16, cb);
     }
 
     #endregion

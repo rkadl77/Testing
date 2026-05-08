@@ -60,6 +60,8 @@ public class DishesController : ControllerBase
         dish.Fats = dto.Fats ?? fats;
         dish.Carbs = dto.Carbs ?? carbs;
 
+        if (dish.Photos.Count > 5)
+            return BadRequest("Нельзя добавить более 5 фото");
         // Проверка суммы БЖУ на 100г
         if (!_validator.IsBjuSumValid(dish))
             return BadRequest("Сумма БЖУ на 100г не может превышать 100");
@@ -181,6 +183,8 @@ public class DishesController : ControllerBase
         dish.Fats = dto.Fats ?? fats;
         dish.Carbs = dto.Carbs ?? carbs;
 
+        if (dish.Photos.Count > 5)
+            return BadRequest("Нельзя добавить более 5 фото");
         if (!_validator.IsBjuSumValid(dish))
             return BadRequest("Сумма БЖУ на 100г не может превышать 100");
 
