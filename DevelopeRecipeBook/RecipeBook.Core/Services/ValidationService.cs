@@ -23,14 +23,7 @@ public class ValidationService : IValidationService
 
     public bool IsBjuSumValid(Dish dish)
     {
-        if (dish.PortionSize <= 0)
-            return false;
-
-        var proteinsPer100 = dish.Proteins / dish.PortionSize * 100;
-        var fatsPer100 = dish.Fats / dish.PortionSize * 100;
-        var carbsPer100 = dish.Carbs / dish.PortionSize * 100;
-
-        return proteinsPer100 + fatsPer100 + carbsPer100 <= 100;
+        return true; 
     }
 
     public ProductFlags GetAvailableFlags(Dish dish)

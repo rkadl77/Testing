@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook.core\\services\\caloriecalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|solutionrelative:recipebook.core\\services\\caloriecalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D6370C59-ABFA-4248-A887-69A5BF86FC2D}|RecipeBook.UnitTests\\RecipeBook.UnitTests.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook.unittests\\services\\caloriecalculatortests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D6370C59-ABFA-4248-A887-69A5BF86FC2D}|RecipeBook.UnitTests\\RecipeBook.UnitTests.csproj|solutionrelative:recipebook.unittests\\services\\caloriecalculatortests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook.core\\services\\caloriecalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|solutionrelative:recipebook.core\\services\\caloriecalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook.core\\services\\validationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|solutionrelative:recipebook.core\\services\\validationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{568B3397-0F27-4ECA-BC81-C3A74399ECC7}|RecipeBook\\RecipeBook.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook\\controllers\\dishescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,12 +23,24 @@
       "RelativeMoniker": "D:0:0:{568B3397-0F27-4ECA-BC81-C3A74399ECC7}|RecipeBook\\RecipeBook.csproj|solutionrelative:recipebook\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook.core\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|solutionrelative:recipebook.core\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook.core\\dtos\\dishdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|solutionrelative:recipebook.core\\dtos\\dishdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook.core\\models\\dish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|solutionrelative:recipebook.core\\models\\dish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook.core\\services\\validationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|solutionrelative:recipebook.core\\services\\validationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook.core\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|solutionrelative:recipebook.core\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook.core\\interfaces\\icaloriecalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|solutionrelative:recipebook.core\\interfaces\\icaloriecalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{568B3397-0F27-4ECA-BC81-C3A74399ECC7}|RecipeBook\\RecipeBook.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook\\controllers\\uploadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -51,14 +67,6 @@
       "RelativeMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|solutionrelative:recipebook.core\\models\\dishproduct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook.core\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|solutionrelative:recipebook.core\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook.core\\interfaces\\icaloriecalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AB38C0F-3590-497E-9ED0-982ED89FE0AF}|RecipeBook.Core\\RecipeBook.Core.csproj|solutionrelative:recipebook.core\\interfaces\\icaloriecalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D6370C59-ABFA-4248-A887-69A5BF86FC2D}|RecipeBook.UnitTests\\RecipeBook.UnitTests.csproj|c:\\users\\rkadl\\source\\repos\\recipebook\\recipebook.unittests\\recipebook.unittests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{D6370C59-ABFA-4248-A887-69A5BF86FC2D}|RecipeBook.UnitTests\\RecipeBook.UnitTests.csproj|solutionrelative:recipebook.unittests\\recipebook.unittests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
@@ -82,32 +90,46 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 16,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 5,
               "Title": "ProductDto.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\DTOs\\ProductDto.cs",
               "RelativeDocumentMoniker": "RecipeBook.Core\\DTOs\\ProductDto.cs",
               "ToolTip": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\DTOs\\ProductDto.cs",
               "RelativeToolTip": "RecipeBook.Core\\DTOs\\ProductDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-05T12:32:31.969Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "UploadController.cs",
-              "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook\\Controllers\\UploadController.cs",
-              "RelativeDocumentMoniker": "RecipeBook\\Controllers\\UploadController.cs",
-              "ToolTip": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook\\Controllers\\UploadController.cs",
-              "RelativeToolTip": "RecipeBook\\Controllers\\UploadController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAABAAAAAAAAAA==",
+              "Title": "DishDto.cs",
+              "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\DTOs\\DishDto.cs",
+              "RelativeDocumentMoniker": "RecipeBook.Core\\DTOs\\DishDto.cs",
+              "ToolTip": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\DTOs\\DishDto.cs",
+              "RelativeToolTip": "RecipeBook.Core\\DTOs\\DishDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T08:48:06.625Z",
+              "WhenOpened": "2026-05-08T11:31:05.631Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "RecipeBook.Core\\Models\\Product.cs",
+              "ToolTip": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\Models\\Product.cs",
+              "RelativeToolTip": "RecipeBook.Core\\Models\\Product.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T11:30:50.188Z",
               "EditorCaption": ""
             },
             {
@@ -116,7 +138,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "Dish.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\Models\\Dish.cs",
               "RelativeDocumentMoniker": "RecipeBook.Core\\Models\\Dish.cs",
@@ -129,7 +151,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 14,
               "Title": "Enums.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\Models\\Enums.cs",
               "RelativeDocumentMoniker": "RecipeBook.Core\\Models\\Enums.cs",
@@ -141,7 +163,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 15,
               "Title": "DishProduct.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\Models\\DishProduct.cs",
               "RelativeDocumentMoniker": "RecipeBook.Core\\Models\\DishProduct.cs",
@@ -153,46 +175,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "CalorieCalculatorTests.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.UnitTests\\Services\\CalorieCalculatorTests.cs",
               "RelativeDocumentMoniker": "RecipeBook.UnitTests\\Services\\CalorieCalculatorTests.cs",
               "ToolTip": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.UnitTests\\Services\\CalorieCalculatorTests.cs",
               "RelativeToolTip": "RecipeBook.UnitTests\\Services\\CalorieCalculatorTests.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAcwDoAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAABMBAAAAAAAAAAAmwDUBAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-05T13:33:29.24Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "DishesController.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook\\Controllers\\DishesController.cs",
               "RelativeDocumentMoniker": "RecipeBook\\Controllers\\DishesController.cs",
               "ToolTip": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook\\Controllers\\DishesController.cs",
               "RelativeToolTip": "RecipeBook\\Controllers\\DishesController.cs",
-              "ViewState": "AgIAAKcAAAAAAAAAAAAjwNUAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAF0AAAAAAAAAAAD4v7sAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-05T12:48:27.72Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "ProductsController.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook\\Controllers\\ProductsController.cs",
               "RelativeDocumentMoniker": "RecipeBook\\Controllers\\ProductsController.cs",
               "ToolTip": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook\\Controllers\\ProductsController.cs",
               "RelativeToolTip": "RecipeBook\\Controllers\\ProductsController.cs",
-              "ViewState": "AgIAAGQAAAAAAAAAAAAWwIYAAABKAAAAAAAAAA==",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAmwLcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-05T12:47:49.235Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 12,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook\\appsettings.json",
               "RelativeDocumentMoniker": "RecipeBook\\appsettings.json",
@@ -200,12 +222,11 @@
               "RelativeToolTip": "RecipeBook\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-05T12:44:09.896Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-05T12:44:09.896Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook\\Program.cs",
               "RelativeDocumentMoniker": "RecipeBook\\Program.cs",
@@ -213,12 +234,11 @@
               "RelativeToolTip": "RecipeBook\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-05T12:43:55.358Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-05T12:43:55.358Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "RecipeBook\\Data\\AppDbContext.cs",
@@ -230,7 +250,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "RecipeBook.csproj",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook\\RecipeBook.csproj",
               "RelativeDocumentMoniker": "RecipeBook\\RecipeBook.csproj",
@@ -242,7 +262,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 9,
               "Title": "ICalorieCalculator.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\Interfaces\\ICalorieCalculator.cs",
               "RelativeDocumentMoniker": "RecipeBook.Core\\Interfaces\\ICalorieCalculator.cs",
@@ -250,37 +270,50 @@
               "RelativeToolTip": "RecipeBook.Core\\Interfaces\\ICalorieCalculator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-05T12:36:37.313Z"
+              "WhenOpened": "2026-05-05T12:36:37.313Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "ValidationService.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\Services\\ValidationService.cs",
               "RelativeDocumentMoniker": "RecipeBook.Core\\Services\\ValidationService.cs",
               "ToolTip": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\Services\\ValidationService.cs",
               "RelativeToolTip": "RecipeBook.Core\\Services\\ValidationService.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAmwGcAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-05T12:36:28.322Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "CalorieCalculator.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\Services\\CalorieCalculator.cs",
               "RelativeDocumentMoniker": "RecipeBook.Core\\Services\\CalorieCalculator.cs",
               "ToolTip": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\Services\\CalorieCalculator.cs",
               "RelativeToolTip": "RecipeBook.Core\\Services\\CalorieCalculator.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-05T12:35:50.582Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
+              "Title": "UploadController.cs",
+              "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook\\Controllers\\UploadController.cs",
+              "RelativeDocumentMoniker": "RecipeBook\\Controllers\\UploadController.cs",
+              "ToolTip": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook\\Controllers\\UploadController.cs",
+              "RelativeToolTip": "RecipeBook\\Controllers\\UploadController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T08:48:06.625Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "UnitTest1.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.UnitTests\\UnitTest1.cs",
               "RelativeDocumentMoniker": "RecipeBook.UnitTests\\UnitTest1.cs",
@@ -292,7 +325,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "IValidationService.cs",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.Core\\Interfaces\\IValidationService.cs",
               "RelativeDocumentMoniker": "RecipeBook.Core\\Interfaces\\IValidationService.cs",
@@ -304,7 +337,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "RecipeBook.UnitTests.csproj",
               "DocumentMoniker": "C:\\Users\\rkadl\\source\\repos\\RecipeBook\\RecipeBook.UnitTests\\RecipeBook.UnitTests.csproj",
               "RelativeDocumentMoniker": "RecipeBook.UnitTests\\RecipeBook.UnitTests.csproj",

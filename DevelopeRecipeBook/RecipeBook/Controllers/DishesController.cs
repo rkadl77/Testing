@@ -63,8 +63,8 @@ public class DishesController : ControllerBase
         if (dish.Photos.Count > 5)
             return BadRequest("Нельзя добавить более 5 фото");
         // Проверка суммы БЖУ на 100г
-        if (!_validator.IsBjuSumValid(dish))
-            return BadRequest("Сумма БЖУ на 100г не может превышать 100");
+        //if (!_validator.IsBjuSumValid(dish))
+            //return BadRequest("Сумма БЖУ на 100г не может превышать 100");
 
         // Обработка макросов в названии
         var macroCategory = _validator.ExtractCategoryFromName(dto.Name);
@@ -185,8 +185,8 @@ public class DishesController : ControllerBase
 
         if (dish.Photos.Count > 5)
             return BadRequest("Нельзя добавить более 5 фото");
-        if (!_validator.IsBjuSumValid(dish))
-            return BadRequest("Сумма БЖУ на 100г не может превышать 100");
+        //if (!_validator.IsBjuSumValid(dish))
+            //return BadRequest("Сумма БЖУ на 100г не может превышать 100");
 
         var macroCategory = _validator.ExtractCategoryFromName(dto.Name);
         dish.Name = _validator.RemoveCategoryMacros(dto.Name);
