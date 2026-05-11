@@ -2,6 +2,27 @@ const MAX_PHOTOS = 5;
 let editingId = null;
 let uploadedPhotos = [];
 
+// Хранилище текущих индексов фото для каждого продукта
+let productPhotoIndex = {};
+
+function getImageUrl(url) {
+    if (!url) return '';
+    return url.startsWith('/') ? 'http://localhost:5187' + url : url;
+}
+
+// ДОБАВИТЬ: функция форматирования даты
+function formatDate(dateString) {
+    if (!dateString) return '—';
+    const date = new Date(dateString);
+    return date.toLocaleString('ru-RU', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
 async function loadProducts() {
     const search = document.getElementById('search').value;
     const category = document.getElementById('filterCategory').value;
@@ -28,14 +49,34 @@ async function loadProducts() {
 
 function renderCards(products) {
     const container = document.getElementById('productsCards');
-    container.innerHTML = products.map(p => `
-        <div class="card">
-            ${p.photos?.length > 0 
-                ? `<img class="card-img" src="${p.photos[0].startsWith('/') ? 'http://localhost:5187' + p.photos[0] : p.photos[0]}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22><rect fill=%22%23e0e0e0%22 width=%22320%22 height=%22180%22/><text x=%2230%25%22 y=%2250%25%22 fill=%22%23999%22 font-size=%2218%22>Нет фото</text></svg>'">`
-                : `<img class="card-img" src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22><rect fill=%22%23e0e0e0%22 width=%22320%22 height=%22180%22/><text x=%2230%25%22 y=%2250%25%22 fill=%22%23999%22 font-size=%2218%22>Нет фото</text></svg>">`
-            }
+    container.innerHTML = products.map(p => {
+        const photos = p.photos || [];
+        if (productPhotoIndex[p.id] === undefined) {
+            productPhotoIndex[p.id] = 0;
+        }
+        
+        return `
+        <div class="card" data-product-id="${p.id}">
+            <div style="position:relative; width:100%; height:180px; background:#f0f0f0; overflow:hidden; cursor:pointer;" onclick="viewProduct('${p.id}')">
+                ${photos.length > 0 ? `
+                    <img class="card-img gallery-img-${p.id}" src="${getImageUrl(photos[0])}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22><rect fill=%22%23e0e0e0%22 width=%22320%22 height=%22180%22/><text x=%2230%25%22 y=%2250%25%22 fill=%22%23999%22 font-size=%2218%22>Нет фото</text></svg>'">
+                    ${photos.length > 1 ? `
+                        <button class="gallery-nav gallery-prev" style="position:absolute; top:50%; left:10px; transform:translateY(-50%); background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:18px; z-index:10;" onclick="event.stopPropagation(); changeProductPhoto('${p.id}', -1)">‹</button>
+                        <button class="gallery-nav gallery-next" style="position:absolute; top:50%; right:10px; transform:translateY(-50%); background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:18px; z-index:10;" onclick="event.stopPropagation(); changeProductPhoto('${p.id}', 1)">›</button>
+                        <div style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:10;">
+                            ${photos.map((_, idx) => `<span class="gallery-dot-${p.id}" data-idx="${idx}" style="width:8px; height:8px; border-radius:50%; background:${idx === 0 ? 'white' : 'rgba(255,255,255,0.5)'}; cursor:pointer;" onclick="event.stopPropagation(); setProductPhotoIndex('${p.id}', ${idx})"></span>`).join('')}
+                        </div>
+                    ` : ''}
+                ` : `
+                    <img class="card-img" src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22><rect fill=%22%23e0e0e0%22 width=%22320%22 height=%22180%22/><text x=%2230%25%22 y=%2250%25%22 fill=%22%23999%22 font-size=%2218%22>Нет фото</text></svg>" style="width:100%; height:100%; object-fit:cover;">
+                `}
+            </div>
             <div class="card-body">
                 <div class="card-title">${p.name}</div>
+                <div class="meta" style="display:flex; gap:12px; font-size:0.7rem; color:#666; margin-bottom:8px; padding-bottom:6px; border-bottom:1px solid #eee;">
+                    <span>📅 ${formatDate(p.createdAt)}</span>
+                    ${p.updatedAt ? `<span>✏️ ${formatDate(p.updatedAt)}</span>` : ''}
+                </div>
                 <div class="card-stats">
                     <div class="stat">🔥 <span>${p.calories}</span> ккал</div>
                     <div class="stat">🟤 <span>${p.proteins}</span> б</div>
@@ -49,12 +90,169 @@ function renderCards(products) {
                 </div>
                 ${p.usedInDishes?.length > 0 ? `<div style="font-size:11px;color:#999;margin-bottom:5px;">Используется: ${p.usedInDishes.join(', ')}</div>` : ''}
                 <div class="card-actions">
-                    <button onclick="showEditForm('${p.id}')">✏️</button>
-                    <button class="danger" onclick="deleteProduct('${p.id}')">🗑️</button>
+                    <button onclick="event.stopPropagation(); viewProduct('${p.id}')">👁️ Просмотр</button>
+                    <button onclick="event.stopPropagation(); showEditForm('${p.id}')">✏️</button>
+                    <button class="danger" onclick="event.stopPropagation(); deleteProduct('${p.id}')">🗑️</button>
                 </div>
             </div>
         </div>
-    `).join('');
+    `}).join('');
+}
+
+// Функция для смены фото в карточке продукта
+function changeProductPhoto(productId, direction) {
+    // Нужно получить актуальные данные продукта
+    fetch(`http://localhost:5187/api/Products/${productId}`)
+        .then(res => res.json())
+        .then(product => {
+            if (!product.photos || product.photos.length === 0) return;
+            
+            let currentIndex = productPhotoIndex[productId] || 0;
+            let newIndex = currentIndex + direction;
+            
+            if (newIndex < 0) newIndex = product.photos.length - 1;
+            if (newIndex >= product.photos.length) newIndex = 0;
+            
+            productPhotoIndex[productId] = newIndex;
+            
+            const img = document.querySelector(`.gallery-img-${productId}`);
+            if (img) {
+                img.src = getImageUrl(product.photos[newIndex]);
+            }
+            
+            for (let i = 0; i < product.photos.length; i++) {
+                const dot = document.querySelector(`.gallery-dot-${productId}[data-idx="${i}"]`);
+                if (dot) {
+                    dot.style.background = i === newIndex ? 'white' : 'rgba(255,255,255,0.5)';
+                }
+            }
+        })
+        .catch(e => console.error(e));
+}
+
+// Функция для установки конкретного индекса фото
+function setProductPhotoIndex(productId, index) {
+    fetch(`http://localhost:5187/api/Products/${productId}`)
+        .then(res => res.json())
+        .then(product => {
+            if (!product.photos || index >= product.photos.length) return;
+            
+            productPhotoIndex[productId] = index;
+            
+            const img = document.querySelector(`.gallery-img-${productId}`);
+            if (img) {
+                img.src = getImageUrl(product.photos[index]);
+            }
+            
+            for (let i = 0; i < product.photos.length; i++) {
+                const dot = document.querySelector(`.gallery-dot-${productId}[data-idx="${i}"]`);
+                if (dot) {
+                    dot.style.background = i === index ? 'white' : 'rgba(255,255,255,0.5)';
+                }
+            }
+        })
+        .catch(e => console.error(e));
+}
+
+// Новая функция для просмотра продукта с галереей
+async function viewProduct(id) {
+    try {
+        const product = await apiGet(`/Products/${id}`);
+        const photos = product.photos || [];
+        let currentPhotoIndex = 0;
+        
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.style.display = 'flex';
+        
+        function updateModalImage() {
+            const img = modal.querySelector('.modal-gallery-img');
+            if (img && photos.length > 0) {
+                img.src = getImageUrl(photos[currentPhotoIndex]);
+            }
+            for (let i = 0; i < photos.length; i++) {
+                const dot = modal.querySelector(`.modal-dot-${i}`);
+                if (dot) {
+                    dot.style.background = i === currentPhotoIndex ? 'white' : 'rgba(255,255,255,0.5)';
+                }
+            }
+        }
+        
+        modal.innerHTML = `
+            <div class="modal-content" style="max-width: 500px;">
+                <h2>📦 ${product.name}</h2>
+                <div style="position:relative; width:100%; height:250px; background:#f0f0f0; border-radius:8px; overflow:hidden; margin-bottom:15px;">
+                    ${photos.length > 0 ? `
+                        <img class="modal-gallery-img" src="${getImageUrl(photos[0])}" style="width:100%; height:100%; object-fit:cover;">
+                        ${photos.length > 1 ? `
+                            <button class="modal-prev" style="position:absolute; top:50%; left:10px; transform:translateY(-50%); background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:18px; z-index:10;">‹</button>
+                            <button class="modal-next" style="position:absolute; top:50%; right:10px; transform:translateY(-50%); background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:18px; z-index:10;">›</button>
+                            <div style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:10;">
+                                ${photos.map((_, idx) => `<span class="modal-dot-${idx}" data-idx="${idx}" style="width:8px; height:8px; border-radius:50%; background:${idx === 0 ? 'white' : 'rgba(255,255,255,0.5)'}; cursor:pointer;"></span>`).join('')}
+                            </div>
+                        ` : ''}
+                    ` : `
+                        <div style="display:flex; align-items:center; justify-content:center; height:100%; color:#999;">Нет фото</div>
+                    `}
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px;">
+                    <div><strong>🔥 Калории:</strong> ${product.calories} ккал</div>
+                    <div><strong>🟤 Белки:</strong> ${product.proteins} г</div>
+                    <div><strong>🟡 Жиры:</strong> ${product.fats} г</div>
+                    <div><strong>🟠 Углеводы:</strong> ${product.carbs} г</div>
+                </div>
+                <div style="margin-bottom:10px;">
+                    <strong>📂 Категория:</strong> ${product.category}<br>
+                    <strong>🍳 Готовность:</strong> ${product.cookingRequirement.replace(/_/g, ' ')}<br>
+                    <strong>🏷️ Флаги:</strong> ${product.flags !== 'None' ? product.flags : 'Нет'}<br>
+                    ${product.composition ? `<strong>📋 Состав:</strong> ${product.composition}<br>` : ''}
+                    ${product.usedInDishes?.length > 0 ? `<strong>🍽️ Используется в блюдах:</strong> ${product.usedInDishes.join(', ')}<br>` : ''}
+                    <strong>📅 Создан:</strong> ${formatDate(product.createdAt)}<br>
+                    ${product.updatedAt ? `<strong>✏️ Изменён:</strong> ${formatDate(product.updatedAt)}` : ''}
+                </div>
+                <div class="form-actions">
+                    <button onclick="this.closest('.modal').remove()">Закрыть</button>
+                    <button onclick="this.closest('.modal').remove(); showEditForm('${product.id}')">✏️ Редактировать</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        if (photos.length > 1) {
+            const prevBtn = modal.querySelector('.modal-prev');
+            const nextBtn = modal.querySelector('.modal-next');
+            
+            if (prevBtn) {
+                prevBtn.onclick = () => {
+                    currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
+                    updateModalImage();
+                };
+            }
+            if (nextBtn) {
+                nextBtn.onclick = () => {
+                    currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+                    updateModalImage();
+                };
+            }
+            
+            for (let i = 0; i < photos.length; i++) {
+                const dot = modal.querySelector(`.modal-dot-${i}`);
+                if (dot) {
+                    dot.onclick = () => {
+                        currentPhotoIndex = i;
+                        updateModalImage();
+                    };
+                }
+            }
+        }
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.remove();
+        });
+    } catch (e) {
+        alert(e.message);
+    }
 }
 
 function showCreateForm() {
@@ -106,7 +304,8 @@ function getFlagsString() {
     if (document.getElementById('flagVegan').checked) flags.push('Веган');
     if (document.getElementById('flagGluten').checked) flags.push('Без_глютена');
     if (document.getElementById('flagSugar').checked) flags.push('Без_сахара');
-    return flags.join(', ');
+    
+    return flags.length === 0 ? 'None' : flags.join(', ');
 }
 
 async function uploadPhotos() {

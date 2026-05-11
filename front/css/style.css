@@ -147,6 +147,27 @@ button.secondary {
     color: #333;
 }
 
+/* НОВОЕ: стили для мета-информации (даты) */
+.card-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 0.7rem;
+    color: #888;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.card-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.card-meta i {
+    font-style: normal;
+}
+
 .card-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -187,6 +208,11 @@ button.secondary {
     color: #e65100;
 }
 
+.tag.gray {
+    background: #f5f5f5;
+    color: #666;
+}
+
 .card-actions {
     display: flex;
     gap: 8px;
@@ -197,6 +223,16 @@ button.secondary {
     flex: 1;
     padding: 8px;
     font-size: 13px;
+}
+
+/* НОВОЕ: стиль для сообщения об использовании в блюдах */
+.used-in {
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 8px;
+    padding: 4px 8px;
+    background: #f9f9f9;
+    border-radius: 6px;
 }
 
 .modal {
@@ -228,6 +264,12 @@ button.secondary {
     color: #333;
 }
 
+.modal-content h3 {
+    margin: 15px 0 10px 0;
+    color: #444;
+    font-size: 18px;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -251,6 +293,25 @@ form input, form select, form textarea {
 form input:focus, form select:focus {
     outline: none;
     border-color: #4CAF50;
+}
+
+/* НОВОЕ: стили для ингредиентов */
+.ingredient-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 8px;
+    background: #fafafa;
+    border-radius: 8px;
+}
+
+.ingredient-row .product-select {
+    flex: 2;
+}
+
+.ingredient-row .quantity-input {
+    width: 80px;
 }
 
 .photo-upload-area {
@@ -298,6 +359,11 @@ form input:focus, form select:focus {
     text-align: center;
 }
 
+.photo-preview .remove-btn:hover {
+    background: #c62828;
+    transform: none;
+}
+
 .form-actions {
     display: flex;
     gap: 10px;
@@ -312,4 +378,275 @@ form input:focus, form select:focus {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    margin-bottom: 10px;
+}
+
+/* НОВОЕ: адаптивность для мобильных */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    header {
+        padding: 15px;
+    }
+    
+    header h1 {
+        font-size: 22px;
+    }
+    
+    main {
+        padding: 15px;
+    }
+    
+    .toolbar {
+        flex-direction: column;
+    }
+    
+    .toolbar input, 
+    .toolbar select, 
+    .toolbar button {
+        width: 100%;
+    }
+    
+    .cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        padding: 20px;
+        width: 98%;
+    }
+    
+    .card-meta {
+        font-size: 0.65rem;
+        gap: 8px;
+    }
+}
+
+/* НОВОЕ: анимация загрузки */
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+/* НОВОЕ: уведомления */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    background: #333;
+    color: white;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 2000;
+}
+
+.notification.show {
+    opacity: 1;
+}
+
+.notification.success {
+    background: #4CAF50;
+}
+
+.notification.error {
+    background: #e53935;
+}
+
+/* НОВОЕ: пустое состояние */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.empty-state svg {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 16px;
+}
+
+/* Стили для галереи фотографий */
+.image-gallery {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    background: #f0f0f0;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 10;
+}
+
+.gallery-nav:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.gallery-prev {
+    left: 10px;
+}
+
+.gallery-next {
+    right: 10px;
+}
+
+.gallery-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.gallery-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.gallery-dot:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: scale(1.2);
+}
+
+.gallery-dot.active {
+    background: white;
+    width: 20px;
+    border-radius: 4px;
+}
+
+/* Стили для модальной галереи */
+.modal-gallery {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.modal-gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 10;
+}
+
+.modal-gallery-nav:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.modal-gallery-prev {
+    left: 10px;
+}
+
+.modal-gallery-next {
+    right: 10px;
+}
+
+.modal-gallery-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.modal-gallery-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.modal-gallery-dot.active {
+    background: white;
+    width: 20px;
+    border-radius: 4px;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .gallery-nav {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+    
+    .modal-gallery-nav {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+    }
+    
+    .modal-gallery {
+        height: 250px;
+    }
 }
