@@ -24,6 +24,15 @@ public class ProductsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateProductDto dto)
     {
+        // ✅ НОВАЯ ПРОВЕРКА ВАЛИДАЦИИ DTO
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage);
+            return BadRequest(string.Join("; ", errors));
+        }
+
         var product = new Product
         {
             Id = Guid.NewGuid(),
@@ -63,17 +72,44 @@ public class ProductsController : ControllerBase
 
         // Фильтрация по категории
         if (!string.IsNullOrEmpty(category))
-            query = query.Where(p => p.Category == Enum.Parse<ProductCategory>(category));
+        {
+            try
+            {
+                var cat = Enum.Parse<ProductCategory>(category);
+                query = query.Where(p => p.Category == cat);
+            }
+            catch
+            {
+                return BadRequest($"Недопустимая категория: {category}");
+            }
+        }
 
         // Фильтрация по необходимости готовки
         if (!string.IsNullOrEmpty(cookingRequirement))
-            query = query.Where(p => p.CookingRequirement == Enum.Parse<CookingRequirement>(cookingRequirement));
+        {
+            try
+            {
+                var cooking = Enum.Parse<CookingRequirement>(cookingRequirement);
+                query = query.Where(p => p.CookingRequirement == cooking);
+            }
+            catch
+            {
+                return BadRequest($"Недопустимое значение готовности: {cookingRequirement}");
+            }
+        }
 
         // Фильтрация по флагам
         if (!string.IsNullOrEmpty(flags))
         {
-            var flag = Enum.Parse<ProductFlags>(flags);
-            query = query.Where(p => p.Flags.HasFlag(flag));
+            try
+            {
+                var flag = Enum.Parse<ProductFlags>(flags);
+                query = query.Where(p => p.Flags.HasFlag(flag));
+            }
+            catch
+            {
+                return BadRequest($"Недопустимый флаг: {flags}");
+            }
         }
 
         // Поиск по названию
@@ -113,6 +149,14 @@ public class ProductsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateProductDto dto)
     {
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage);
+            return BadRequest(string.Join("; ", errors));
+        }
+
         var product = await _db.Products.FindAsync(id);
         if (product == null)
             return NotFound();

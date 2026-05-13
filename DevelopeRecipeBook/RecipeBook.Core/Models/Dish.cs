@@ -1,30 +1,42 @@
-﻿namespace RecipeBook.Core.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RecipeBook.Core.Models;
 
 public class Dish
 {
     public Guid Id { get; set; }
 
-    public string Name { get; set; } = string.Empty;           // обязательное, мин 2 символа
+    [Required(ErrorMessage = "Название блюда обязательно")]
+    [MinLength(2, ErrorMessage = "Название блюда должно содержать минимум 2 символа")]
+    public string Name { get; set; } = string.Empty;
 
-    public List<string> Photos { get; set; } = new();          // 0-5 фото
+    [MaxLength(5, ErrorMessage = "Нельзя добавить более 5 фото")]
+    public List<string> Photos { get; set; } = new();
 
-    public double Calories { get; set; }                       // ккал/порция, >= 0 (авторасчёт + ручная корректировка)
+    [Range(0, double.MaxValue, ErrorMessage = "Калории не могут быть отрицательными")]
+    public double Calories { get; set; }
 
-    public double Proteins { get; set; }                       // г/порция
+    [Range(0, double.MaxValue, ErrorMessage = "Белки не могут быть отрицательными")]
+    public double Proteins { get; set; }
 
-    public double Fats { get; set; }                           // г/порция
+    [Range(0, double.MaxValue, ErrorMessage = "Жиры не могут быть отрицательными")]
+    public double Fats { get; set; }
 
-    public double Carbs { get; set; }                          // г/порция
+    [Range(0, double.MaxValue, ErrorMessage = "Углеводы не могут быть отрицательными")]
+    public double Carbs { get; set; }
 
-    public double PortionSize { get; set; }                    // масса порции в г, > 0
+    [Range(0.1, double.MaxValue, ErrorMessage = "Размер порции должен быть больше 0")]
+    public double PortionSize { get; set; }
 
+    [Required(ErrorMessage = "Категория блюда обязательна")]
     public DishCategory Category { get; set; }
 
     public ProductFlags Flags { get; set; } = ProductFlags.None;
 
-    public DateTime CreatedAt { get; set; }                    // заполняется системой
+    public DateTime CreatedAt { get; set; }
 
-    public DateTime? UpdatedAt { get; set; }                 
+    public DateTime? UpdatedAt { get; set; }
 
+    [MinLength(1, ErrorMessage = "Блюдо должно содержать хотя бы один продукт")]
     public List<DishProduct> DishProducts { get; set; } = new();
 }

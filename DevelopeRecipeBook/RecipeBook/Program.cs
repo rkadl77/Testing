@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipeBook.Core.Interfaces;
 using RecipeBook.Core.Services;
@@ -11,7 +12,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<ICalorieCalculator, CalorieCalculator>();
 builder.Services.AddScoped<IValidationService, ValidationService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        // Настройка ответа при ошибках валидации
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var errors = context.ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage);
+            return new BadRequestObjectResult(string.Join("; ", errors));
+        };
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

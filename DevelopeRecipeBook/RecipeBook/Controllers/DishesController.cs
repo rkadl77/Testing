@@ -26,6 +26,19 @@ public class DishesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateDishDto dto)
     {
+        // ✅ НОВАЯ ПРОВЕРКА ВАЛИДАЦИИ DTO
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage);
+            return BadRequest(string.Join("; ", errors));
+        }
+
+        // Проверка наличия ингредиентов (дополнительная защита)
+        if (dto.Ingredients == null || dto.Ingredients.Count == 0)
+            return BadRequest("Блюдо должно содержать хотя бы один продукт");
+
         var productIds = dto.Ingredients.Select(i => i.ProductId).ToList();
         var products = await _db.Products.Where(p => productIds.Contains(p.Id)).ToListAsync();
 
@@ -62,30 +75,55 @@ public class DishesController : ControllerBase
 
         if (dish.Photos.Count > 5)
             return BadRequest("Нельзя добавить более 5 фото");
-        // Проверка суммы БЖУ на 100г
+
+        // Проверка суммы БЖУ на 100г (закомментирована)
         //if (!_validator.IsBjuSumValid(dish))
-            //return BadRequest("Сумма БЖУ на 100г не может превышать 100");
+        //    return BadRequest("Сумма БЖУ на 100г не может превышать 100");
 
         // Обработка макросов в названии
         var macroCategory = _validator.ExtractCategoryFromName(dto.Name);
-        dish.Name = _validator.RemoveCategoryMacros(dto.Name);
+        dish.Name = _validator.RemoveCategoryMacros(dto.Name).Trim();
+
+        // Проверка минимальной длины названия после удаления макроса
+        if (string.IsNullOrWhiteSpace(dish.Name) || dish.Name.Length < 2)
+            return BadRequest("Название блюда должно содержать минимум 2 символа после удаления макроса");
 
         // Категория
         if (!string.IsNullOrEmpty(dto.Category))
-            dish.Category = Enum.Parse<DishCategory>(dto.Category.Replace(" ", ""), true);
+        {
+            try
+            {
+                dish.Category = Enum.Parse<DishCategory>(dto.Category.Replace(" ", ""), true);
+            }
+            catch
+            {
+                return BadRequest($"Недопустимая категория: {dto.Category}");
+            }
+        }
         else if (macroCategory != null)
+        {
             dish.Category = Enum.Parse<DishCategory>(macroCategory);
+        }
         else
+        {
             return BadRequest("Не указана категория блюда");
+        }
 
         // Флаги
         var availableFlags = _validator.GetAvailableFlags(dish);
         if (!string.IsNullOrEmpty(dto.Flags))
         {
-            var requestedFlags = Enum.Parse<ProductFlags>(dto.Flags.Replace(" ", ""), true);
-            if ((requestedFlags & ~availableFlags) != 0)
-                return BadRequest($"Некоторые флаги недоступны. Доступные: {availableFlags}");
-            dish.Flags = requestedFlags;
+            try
+            {
+                var requestedFlags = Enum.Parse<ProductFlags>(dto.Flags.Replace(" ", ""), true);
+                if ((requestedFlags & ~availableFlags) != 0)
+                    return BadRequest($"Некоторые флаги недоступны. Доступные: {availableFlags}");
+                dish.Flags = requestedFlags;
+            }
+            catch
+            {
+                return BadRequest($"Недопустимый флаг: {dto.Flags}");
+            }
         }
 
         _db.Dishes.Add(dish);
@@ -108,14 +146,28 @@ public class DishesController : ControllerBase
 
         if (!string.IsNullOrEmpty(category))
         {
-            var cat = Enum.Parse<DishCategory>(category.Replace(" ", ""), true);
-            query = query.Where(d => d.Category == cat);
+            try
+            {
+                var cat = Enum.Parse<DishCategory>(category.Replace(" ", ""), true);
+                query = query.Where(d => d.Category == cat);
+            }
+            catch
+            {
+                return BadRequest($"Недопустимая категория: {category}");
+            }
         }
 
         if (!string.IsNullOrEmpty(flags))
         {
-            var flag = Enum.Parse<ProductFlags>(flags.Replace(" ", ""), true);
-            query = query.Where(d => (d.Flags & flag) == flag);
+            try
+            {
+                var flag = Enum.Parse<ProductFlags>(flags.Replace(" ", ""), true);
+                query = query.Where(d => (d.Flags & flag) == flag);
+            }
+            catch
+            {
+                return BadRequest($"Недопустимый флаг: {flags}");
+            }
         }
 
         if (!string.IsNullOrEmpty(search))
@@ -144,6 +196,19 @@ public class DishesController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateDishDto dto)
     {
+        // ✅ НОВАЯ ПРОВЕРКА ВАЛИДАЦИИ DTO
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage);
+            return BadRequest(string.Join("; ", errors));
+        }
+
+        // Проверка наличия ингредиентов
+        if (dto.Ingredients == null || dto.Ingredients.Count == 0)
+            return BadRequest("Блюдо должно содержать хотя бы один продукт");
+
         var dish = await _db.Dishes
             .Include(d => d.DishProducts)
             .ThenInclude(dp => dp.Product)
@@ -186,23 +251,45 @@ public class DishesController : ControllerBase
         if (dish.Photos.Count > 5)
             return BadRequest("Нельзя добавить более 5 фото");
         //if (!_validator.IsBjuSumValid(dish))
-            //return BadRequest("Сумма БЖУ на 100г не может превышать 100");
+        //return BadRequest("Сумма БЖУ на 100г не может превышать 100");
 
         var macroCategory = _validator.ExtractCategoryFromName(dto.Name);
-        dish.Name = _validator.RemoveCategoryMacros(dto.Name);
+        dish.Name = _validator.RemoveCategoryMacros(dto.Name).Trim();
+
+        // минимальная длина названия после удаления макроса
+        if (string.IsNullOrWhiteSpace(dish.Name) || dish.Name.Length < 2)
+            return BadRequest("Название блюда должно содержать минимум 2 символа после удаления макроса");
 
         if (!string.IsNullOrEmpty(dto.Category))
-            dish.Category = Enum.Parse<DishCategory>(dto.Category.Replace(" ", ""), true);
+        {
+            try
+            {
+                dish.Category = Enum.Parse<DishCategory>(dto.Category.Replace(" ", ""), true);
+            }
+            catch
+            {
+                return BadRequest($"Недопустимая категория: {dto.Category}");
+            }
+        }
         else if (macroCategory != null)
+        {
             dish.Category = Enum.Parse<DishCategory>(macroCategory);
+        }
 
         var availableFlags = _validator.GetAvailableFlags(dish);
         if (!string.IsNullOrEmpty(dto.Flags))
         {
-            var requestedFlags = Enum.Parse<ProductFlags>(dto.Flags.Replace(" ", ""), true);
-            if ((requestedFlags & ~availableFlags) != 0)
-                return BadRequest($"Некоторые флаги недоступны. Доступные: {availableFlags}");
-            dish.Flags = requestedFlags;
+            try
+            {
+                var requestedFlags = Enum.Parse<ProductFlags>(dto.Flags.Replace(" ", ""), true);
+                if ((requestedFlags & ~availableFlags) != 0)
+                    return BadRequest($"Некоторые флаги недоступны. Доступные: {availableFlags}");
+                dish.Flags = requestedFlags;
+            }
+            catch
+            {
+                return BadRequest($"Недопустимый флаг: {dto.Flags}");
+            }
         }
         else
         {
