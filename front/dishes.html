@@ -17,8 +17,8 @@
     </header>
     <main>
         <div class="toolbar">
-            <input type="text" id="search" placeholder="🔍 Поиск по названию..." oninput="loadDishes()">
-            <select id="filterCategory" onchange="loadDishes()">
+            <input data-testid="search-input" type="text" id="search" placeholder="🔍 Поиск по названию..." oninput="loadDishes()">
+            <select data-testid="filter-category" id="filterCategory" onchange="loadDishes()">
                 <option value="">Все категории</option>
                 <option value="Десерт">Десерт</option>
                 <option value="Первое">Первое</option>
@@ -28,44 +28,44 @@
                 <option value="Суп">Суп</option>
                 <option value="Перекус">Перекус</option>
             </select>
-            <select id="filterFlags" onchange="loadDishes()">
+            <select data-testid="filter-flags" id="filterFlags" onchange="loadDishes()">
                 <option value="">Все флаги</option>
                 <option value="Веган">Веган</option>
                 <option value="Без_глютена">Без глютена</option>
                 <option value="Без_сахара">Без сахара</option>
             </select>
-            <button onclick="showCreateForm()">+ Новое блюдо</button>
+            <button data-testid="new-dish-btn" onclick="showCreateForm()">+ Новое блюдо</button>
         </div>
 
         <div class="cards" id="dishesCards"></div>
 
         <div class="modal" id="dishModal">
             <div class="modal-content" style="max-width:700px;">
-                <h2 id="modalTitle">Новое блюдо</h2>
+                <h2 data-testid="modal-title" id="modalTitle">Новое блюдо</h2>
                 <form id="dishForm">
                     <input type="hidden" id="dishId">
                     
-                    <label>Название (можно с макросом: !суп, !первое и т.д.):</label>
-                    <input type="text" id="name" required minlength="2" placeholder="Например: !суп Борщ">
+                    <label for="name">Название (можно с макросом: !суп, !первое и т.д.):</label>
+                    <input data-testid="dish-name" type="text" id="name" placeholder="Например: !суп Борщ">
                     
                     <label>Фото:</label>
                     <div class="photo-upload-area">
-                        <input type="file" id="photoInput" accept="image/*" multiple onchange="uploadPhotos()" style="flex:1;">
+                        <input data-testid="photo-input" type="file" id="photoInput" accept="image/*" multiple onchange="uploadPhotos()" style="flex:1;">
                         <span style="font-size:12px;color:#999;">или</span>
-                        <input type="text" id="photoUrl" placeholder="Вставить ссылку" style="flex:2;">
-                        <button type="button" onclick="addPhotoUrl()" style="padding:8px 12px;flex:0;">+</button>
+                        <input data-testid="photo-url" type="text" id="photoUrl" placeholder="Вставить ссылку" style="flex:2;">
+                        <button data-testid="add-photo-btn" type="button" onclick="addPhotoUrl()" style="padding:8px 12px;flex:0;">+</button>
                     </div>
                     <div class="photo-previews" id="photoPreviews"></div>
                     <input type="hidden" id="photos" value="">
                     
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                         <div>
-                            <label>Размер порции (г):</label>
-                            <input type="number" id="portionSize" required min="0.1" step="0.1" value="500">
+                            <label for="portionSize">Размер порции (г):</label>
+                            <input data-testid="dish-portion-size" type="number" id="portionSize" step="0.1" value="500">
                         </div>
                         <div>
-                            <label>Категория:</label>
-                            <select id="category">
+                            <label for="category">Категория:</label>
+                            <select data-testid="dish-category" id="category">
                                 <option value="">Из макроса / выбрать</option>
                                 <option value="Десерт">Десерт</option>
                                 <option value="Первое">Первое</option>
@@ -80,38 +80,38 @@
 
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                         <div>
-                            <label>Калории:</label>
-                            <input type="number" id="calories" step="0.01" min="0">
+                            <label for="calories">Калории:</label>
+                            <input data-testid="dish-calories" type="number" id="calories" step="0.01">
                         </div>
                         <div>
-                            <label>Белки:</label>
-                            <input type="number" id="proteins" step="0.01" min="0">
+                            <label for="proteins">Белки:</label>
+                            <input data-testid="dish-proteins" type="number" id="proteins" step="0.01">
                         </div>
                         <div>
-                            <label>Жиры:</label>
-                            <input type="number" id="fats" step="0.01" min="0">
+                            <label for="fats">Жиры:</label>
+                            <input data-testid="dish-fats" type="number" id="fats" step="0.01">
                         </div>
                         <div>
-                            <label>Углеводы:</label>
-                            <input type="number" id="carbs" step="0.01" min="0">
+                            <label for="carbs">Углеводы:</label>
+                            <input data-testid="dish-carbs" type="number" id="carbs" step="0.01">
                         </div>
                     </div>
 
                     <label>Флаги:</label>
                     <div style="display:flex; gap:15px;">
-                        <label><input type="checkbox" id="flagVegan"> Веган</label>
-                        <label><input type="checkbox" id="flagGluten"> Без глютена</label>
-                        <label><input type="checkbox" id="flagSugar"> Без сахара</label>
+                        <label><input data-testid="flag-vegan" type="checkbox" id="flagVegan"> Веган</label>
+                        <label><input data-testid="flag-gluten" type="checkbox" id="flagGluten"> Без глютена</label>
+                        <label><input data-testid="flag-sugar" type="checkbox" id="flagSugar"> Без сахара</label>
                     </div>
 
                     <h3>Состав блюда</h3>
                     <div id="ingredients"></div>
-                    <button type="button" onclick="addIngredientRow()">+ Добавить продукт</button>
+                    <button data-testid="add-ingredient-btn" type="button" onclick="addIngredientRow()">+ Добавить продукт</button>
 
                     <div class="form-actions">
-                        <button type="button" onclick="autoCalculate()">🔄 Авторасчёт КБЖУ</button>
-                        <button type="submit">💾 Сохранить</button>
-                        <button type="button" onclick="closeModal()" class="secondary">Отмена</button>
+                        <button data-testid="auto-calculate-btn" type="button" onclick="autoCalculate()">🔄 Авторасчёт КБЖУ</button>
+                        <button data-testid="save-dish-btn" type="submit">💾 Сохранить</button>
+                        <button data-testid="cancel-modal-btn" type="button" onclick="closeModal()" class="secondary">Отмена</button>
                     </div>
                 </form>
             </div>

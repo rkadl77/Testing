@@ -56,43 +56,43 @@ function renderCards(products) {
         }
         
         return `
-        <div class="card" data-product-id="${p.id}">
-            <div style="position:relative; width:100%; height:180px; background:#f0f0f0; overflow:hidden; cursor:pointer;" onclick="viewProduct('${p.id}')">
+        <div class="card" data-testid="product-card" data-product-id="${p.id}">
+            <div data-testid="product-image-area" style="position:relative; width:100%; height:180px; background:#f0f0f0; overflow:hidden; cursor:pointer;" onclick="viewProduct('${p.id}')">
                 ${photos.length > 0 ? `
-                    <img class="card-img gallery-img-${p.id}" src="${getImageUrl(photos[0])}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22><rect fill=%22%23e0e0e0%22 width=%22320%22 height=%22180%22/><text x=%2230%25%22 y=%2250%25%22 fill=%22%23999%22 font-size=%2218%22>Нет фото</text></svg>'">
+                    <img data-testid="product-image" class="card-img gallery-img-${p.id}" src="${getImageUrl(photos[0])}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22><rect fill=%22%23e0e0e0%22 width=%22320%22 height=%22180%22/><text x=%2230%25%22 y=%2250%25%22 fill=%22%23999%22 font-size=%2218%22>Нет фото</text></svg>'">
                     ${photos.length > 1 ? `
-                        <button class="gallery-nav gallery-prev" style="position:absolute; top:50%; left:10px; transform:translateY(-50%); background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:18px; z-index:10;" onclick="event.stopPropagation(); changeProductPhoto('${p.id}', -1)">‹</button>
-                        <button class="gallery-nav gallery-next" style="position:absolute; top:50%; right:10px; transform:translateY(-50%); background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:18px; z-index:10;" onclick="event.stopPropagation(); changeProductPhoto('${p.id}', 1)">›</button>
-                        <div style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:10;">
-                            ${photos.map((_, idx) => `<span class="gallery-dot-${p.id}" data-idx="${idx}" style="width:8px; height:8px; border-radius:50%; background:${idx === 0 ? 'white' : 'rgba(255,255,255,0.5)'}; cursor:pointer;" onclick="event.stopPropagation(); setProductPhotoIndex('${p.id}', ${idx})"></span>`).join('')}
+                        <button data-testid="gallery-prev" class="gallery-nav gallery-prev" style="position:absolute; top:50%; left:10px; transform:translateY(-50%); background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:18px; z-index:10;" onclick="event.stopPropagation(); changeProductPhoto('${p.id}', -1)">‹</button>
+                        <button data-testid="gallery-next" class="gallery-nav gallery-next" style="position:absolute; top:50%; right:10px; transform:translateY(-50%); background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:18px; z-index:10;" onclick="event.stopPropagation(); changeProductPhoto('${p.id}', 1)">›</button>
+                        <div data-testid="gallery-dots" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:10;">
+                            ${photos.map((_, idx) => `<span data-testid="gallery-dot" class="gallery-dot-${p.id}" data-idx="${idx}" style="width:8px; height:8px; border-radius:50%; background:${idx === 0 ? 'white' : 'rgba(255,255,255,0.5)'}; cursor:pointer;" onclick="event.stopPropagation(); setProductPhotoIndex('${p.id}', ${idx})"></span>`).join('')}
                         </div>
                     ` : ''}
                 ` : `
-                    <img class="card-img" src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22><rect fill=%22%23e0e0e0%22 width=%22320%22 height=%22180%22/><text x=%2230%25%22 y=%2250%25%22 fill=%22%23999%22 font-size=%2218%22>Нет фото</text></svg>" style="width:100%; height:100%; object-fit:cover;">
+                    <img data-testid="no-image" class="card-img" src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22><rect fill=%22%23e0e0e0%22 width=%22320%22 height=%22180%22/><text x=%2230%25%22 y=%2250%25%22 fill=%22%23999%22 font-size=%2218%22>Нет фото</text></svg>" style="width:100%; height:100%; object-fit:cover;">
                 `}
             </div>
             <div class="card-body">
-                <div class="card-title">${p.name}</div>
+                <div data-testid="product-title" class="card-title">${p.name}</div>
                 <div class="meta" style="display:flex; gap:12px; font-size:0.7rem; color:#666; margin-bottom:8px; padding-bottom:6px; border-bottom:1px solid #eee;">
                     <span>📅 ${formatDate(p.createdAt)}</span>
                     ${p.updatedAt ? `<span>✏️ ${formatDate(p.updatedAt)}</span>` : ''}
                 </div>
                 <div class="card-stats">
-                    <div class="stat">🔥 <span>${p.calories}</span> ккал</div>
-                    <div class="stat">🟤 <span>${p.proteins}</span> б</div>
-                    <div class="stat">🟡 <span>${p.fats}</span> ж</div>
-                    <div class="stat">🟠 <span>${p.carbs}</span> у</div>
+                    <div class="stat">🔥 <span data-testid="product-calories-value">${p.calories}</span> ккал</div>
+                    <div class="stat">🟤 <span data-testid="product-proteins-value">${p.proteins}</span> б</div>
+                    <div class="stat">🟡 <span data-testid="product-fats-value">${p.fats}</span> ж</div>
+                    <div class="stat">🟠 <span data-testid="product-carbs-value">${p.carbs}</span> у</div>
                 </div>
                 <div class="card-tags">
-                    <span class="tag">${p.category}</span>
+                    <span data-testid="product-category-value" class="tag">${p.category}</span>
                     <span class="tag orange">${p.cookingRequirement.replace(/_/g, ' ')}</span>
-                    ${p.flags !== 'None' ? p.flags.split(', ').map(f => `<span class="tag">${f}</span>`).join('') : ''}
+                    ${p.flags !== 'None' ? p.flags.split(', ').map(f => `<span data-testid="product-flag" class="tag">${f}</span>`).join('') : ''}
                 </div>
-                ${p.usedInDishes?.length > 0 ? `<div style="font-size:11px;color:#999;margin-bottom:5px;">Используется: ${p.usedInDishes.join(', ')}</div>` : ''}
+                ${p.usedInDishes?.length > 0 ? `<div data-testid="used-in-dishes" style="font-size:11px;color:#999;margin-bottom:5px;">Используется: ${p.usedInDishes.join(', ')}</div>` : ''}
                 <div class="card-actions">
-                    <button onclick="event.stopPropagation(); viewProduct('${p.id}')">👁️ Просмотр</button>
-                    <button onclick="event.stopPropagation(); showEditForm('${p.id}')">✏️</button>
-                    <button class="danger" onclick="event.stopPropagation(); deleteProduct('${p.id}')">🗑️</button>
+                    <button data-testid="view-product-btn" onclick="event.stopPropagation(); viewProduct('${p.id}')">👁️ Просмотр</button>
+                    <button data-testid="edit-product-btn" onclick="event.stopPropagation(); showEditForm('${p.id}')">✏️</button>
+                    <button data-testid="delete-product-btn" class="danger" onclick="event.stopPropagation(); deleteProduct('${p.id}')">🗑️</button>
                 </div>
             </div>
         </div>

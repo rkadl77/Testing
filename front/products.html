@@ -17,8 +17,8 @@
     </header>
     <main>
         <div class="toolbar">
-            <input type="text" id="search" placeholder="🔍 Поиск по названию..." oninput="loadProducts()">
-            <select id="filterCategory" onchange="loadProducts()">
+            <input data-testid="search-input" type="text" id="search" placeholder="🔍 Поиск по названию..." oninput="loadProducts()">
+            <select data-testid="filter-category" id="filterCategory" onchange="loadProducts()">
                 <option value="">Все категории</option>
                 <option value="Овощи">Овощи</option>
                 <option value="Мясной">Мясной</option>
@@ -30,75 +30,75 @@
                 <option value="Консервы">Консервы</option>
                 <option value="Сладости">Сладости</option>
             </select>
-            <select id="filterCooking" onchange="loadProducts()">
+            <select data-testid="filter-cooking" id="filterCooking" onchange="loadProducts()">
                 <option value="">Любая готовность</option>
                 <option value="Готовый_к_употреблению">Готовый к употреблению</option>
                 <option value="Полуфабрикат">Полуфабрикат</option>
                 <option value="Требует_приготовления">Требует приготовления</option>
             </select>
-            <select id="filterFlags" onchange="loadProducts()">
+            <select data-testid="filter-flags" id="filterFlags" onchange="loadProducts()">
                 <option value="">Все флаги</option>
                 <option value="Веган">Веган</option>
                 <option value="Без_глютена">Без глютена</option>
                 <option value="Без_сахара">Без сахара</option>
             </select>
-            <select id="sortBy" onchange="loadProducts()">
+            <select data-testid="sort-by" id="sortBy" onchange="loadProducts()">
                 <option value="">Сортировка: название</option>
                 <option value="calories">По калорийности</option>
                 <option value="proteins">По белкам</option>
                 <option value="fats">По жирам</option>
                 <option value="carbs">По углеводам</option>
             </select>
-            <button onclick="showCreateForm()">+ Новый продукт</button>
+            <button data-testid="new-product-btn" onclick="showCreateForm()">+ Новый продукт</button>
         </div>
 
         <div class="cards" id="productsCards"></div>
 
         <div class="modal" id="productModal">
             <div class="modal-content">
-                <h2 id="modalTitle">Новый продукт</h2>
+                <h2 data-testid="modal-title" id="modalTitle">Новый продукт</h2>
                 <form id="productForm">
                     <input type="hidden" id="productId">
                     
-                    <label>Название:</label>
-                    <input type="text" id="name" required minlength="2" placeholder="Введите название продукта">
+                    <label for="name">Название:</label>
+                    <input data-testid="product-name" type="text" id="name" placeholder="Введите название продукта">
                     
                     <label>Фото:</label>
                     <div class="photo-upload-area">
-                        <input type="file" id="photoInput" accept="image/*" multiple onchange="uploadPhotos()" style="flex:1;">
+                        <input data-testid="photo-input" type="file" id="photoInput" accept="image/*" multiple onchange="uploadPhotos()" style="flex:1;">
                         <span style="font-size:12px;color:#999;">или</span>
-                        <input type="text" id="photoUrl" placeholder="Вставить ссылку" style="flex:2;">
-                        <button type="button" onclick="addPhotoUrl()" style="padding:8px 12px;flex:0;">+</button>
+                        <input data-testid="photo-url" type="text" id="photoUrl" placeholder="Вставить ссылку" style="flex:2;">
+                        <button data-testid="add-photo-btn" type="button" onclick="addPhotoUrl()" style="padding:8px 12px;flex:0;">+</button>
                     </div>
                     <div class="photo-previews" id="photoPreviews"></div>
                     <input type="hidden" id="photos" value="">
                     
-                    <label>Состав (опционально):</label>
-                    <input type="text" id="composition" placeholder="Например: клубни картофеля свежие">
+                    <label for="composition">Состав (опционально):</label>
+                    <input data-testid="product-composition" type="text" id="composition" placeholder="Например: клубни картофеля свежие">
                     
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                         <div>
-                            <label>Калории (ккал/100г):</label>
-                            <input type="number" id="calories" step="0.01" required min="0" value="0">
+                            <label for="calories">Калории (ккал/100г):</label>
+                            <input data-testid="product-calories" type="number" id="calories" step="0.01" value="0">
                         </div>
                         <div>
-                            <label>Белки (г/100г):</label>
-                            <input type="number" id="proteins" step="0.01" required min="0" max="100" value="0">
+                            <label for="proteins">Белки (г/100г):</label>
+                            <input data-testid="product-proteins" type="number" id="proteins" step="0.01" value="0">
                         </div>
                         <div>
-                            <label>Жиры (г/100г):</label>
-                            <input type="number" id="fats" step="0.01" required min="0" max="100" value="0">
+                            <label for="fats">Жиры (г/100г):</label>
+                            <input data-testid="product-fats" type="number" id="fats" step="0.01" value="0">
                         </div>
                         <div>
-                            <label>Углеводы (г/100г):</label>
-                            <input type="number" id="carbs" step="0.1" required min="0" max="100" value="0">
+                            <label for="carbs">Углеводы (г/100г):</label>
+                            <input data-testid="product-carbs" type="number" id="carbs" step="0.1" value="0">
                         </div>
                     </div>
                     
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                         <div>
-                            <label>Категория:</label>
-                            <select id="category" required>
+                            <label for="category">Категория:</label>
+                            <select data-testid="product-category" id="category">
                                 <option value="Овощи">Овощи</option>
                                 <option value="Мясной">Мясной</option>
                                 <option value="Жидкость">Жидкость</option>
@@ -111,8 +111,8 @@
                             </select>
                         </div>
                         <div>
-                            <label>Готовность:</label>
-                            <select id="cookingRequirement" required>
+                            <label for="cookingRequirement">Готовность:</label>
+                            <select data-testid="product-cooking" id="cookingRequirement">
                                 <option value="Готовый_к_употреблению">Готовый к употреблению</option>
                                 <option value="Полуфабрикат">Полуфабрикат</option>
                                 <option value="Требует_приготовления">Требует приготовления</option>
@@ -122,14 +122,14 @@
                     
                     <label>Флаги:</label>
                     <div style="display:flex; gap:15px;">
-                        <label><input type="checkbox" id="flagVegan"> Веган</label>
-                        <label><input type="checkbox" id="flagGluten"> Без глютена</label>
-                        <label><input type="checkbox" id="flagSugar"> Без сахара</label>
+                        <label><input data-testid="flag-vegan" type="checkbox" id="flagVegan"> Веган</label>
+                        <label><input data-testid="flag-gluten" type="checkbox" id="flagGluten"> Без глютена</label>
+                        <label><input data-testid="flag-sugar" type="checkbox" id="flagSugar"> Без сахара</label>
                     </div>
                     
                     <div class="form-actions">
-                        <button type="submit">💾 Сохранить</button>
-                        <button type="button" onclick="closeModal()" class="secondary">Отмена</button>
+                        <button data-testid="save-product-btn" type="submit">💾 Сохранить</button>
+                        <button data-testid="cancel-modal-btn" type="button" onclick="closeModal()" class="secondary">Отмена</button>
                     </div>
                 </form>
             </div>

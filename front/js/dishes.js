@@ -53,41 +53,41 @@ function renderCards(dishes) {
         }
         
         return `
-        <div class="card" data-dish-id="${d.id}">
-            <div style="position:relative; width:100%; height:180px; background:#f0f0f0; overflow:hidden; cursor:pointer;" onclick="viewDish('${d.id}')">
+        <div class="card" data-testid="dish-card" data-dish-id="${d.id}">
+            <div data-testid="dish-image-area" style="position:relative; width:100%; height:180px; background:#f0f0f0; overflow:hidden; cursor:pointer;" onclick="viewDish('${d.id}')">
                 ${photos.length > 0 ? `
-                    <img class="card-img gallery-img-${d.id}" src="${getImageUrl(photos[0])}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22><rect fill=%22%23e0e0e0%22 width=%22320%22 height=%22180%22/><text x=%2230%25%22 y=%2250%25%22 fill=%22%23999%22 font-size=%2218%22>Нет фото</text></svg>'">
+                    <img data-testid="dish-image" class="card-img gallery-img-${d.id}" src="${getImageUrl(photos[0])}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22><rect fill=%22%23e0e0e0%22 width=%22320%22 height=%22180%22/><text x=%2230%25%22 y=%2250%25%22 fill=%22%23999%22 font-size=%2218%22>Нет фото</text></svg>'">
                     ${photos.length > 1 ? `
-                        <button class="gallery-nav gallery-prev" style="position:absolute; top:50%; left:10px; transform:translateY(-50%); background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:18px; z-index:10;" onclick="event.stopPropagation(); changeDishPhoto('${d.id}', -1)">‹</button>
-                        <button class="gallery-nav gallery-next" style="position:absolute; top:50%; right:10px; transform:translateY(-50%); background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:18px; z-index:10;" onclick="event.stopPropagation(); changeDishPhoto('${d.id}', 1)">›</button>
-                        <div style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:10;">
-                            ${photos.map((_, idx) => `<span class="gallery-dot-${d.id}" data-idx="${idx}" style="width:8px; height:8px; border-radius:50%; background:${idx === 0 ? 'white' : 'rgba(255,255,255,0.5)'}; cursor:pointer;" onclick="event.stopPropagation(); setDishPhotoIndex('${d.id}', ${idx})"></span>`).join('')}
+                        <button data-testid="gallery-prev" class="gallery-nav gallery-prev" style="position:absolute; top:50%; left:10px; transform:translateY(-50%); background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:18px; z-index:10;" onclick="event.stopPropagation(); changeDishPhoto('${d.id}', -1)">‹</button>
+                        <button data-testid="gallery-next" class="gallery-nav gallery-next" style="position:absolute; top:50%; right:10px; transform:translateY(-50%); background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:18px; z-index:10;" onclick="event.stopPropagation(); changeDishPhoto('${d.id}', 1)">›</button>
+                        <div data-testid="gallery-dots" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:10;">
+                            ${photos.map((_, idx) => `<span data-testid="gallery-dot" class="gallery-dot-${d.id}" data-idx="${idx}" style="width:8px; height:8px; border-radius:50%; background:${idx === 0 ? 'white' : 'rgba(255,255,255,0.5)'}; cursor:pointer;" onclick="event.stopPropagation(); setDishPhotoIndex('${d.id}', ${idx})"></span>`).join('')}
                         </div>
                     ` : ''}
                 ` : `
-                    <img class="card-img" src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22><rect fill=%22%23e0e0e0%22 width=%22320%22 height=%22180%22/><text x=%2230%25%22 y=%2250%25%22 fill=%22%23999%22 font-size=%2218%22>Нет фото</text></svg>" style="width:100%; height:100%; object-fit:cover;">
+                    <img data-testid="no-image" class="card-img" src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22><rect fill=%22%23e0e0e0%22 width=%22320%22 height=%22180%22/><text x=%2230%25%22 y=%2250%25%22 fill=%22%23999%22 font-size=%2218%22>Нет фото</text></svg>" style="width:100%; height:100%; object-fit:cover;">
                 `}
             </div>
             <div class="card-body">
-                <div class="card-title">${d.name}</div>
+                <div data-testid="dish-title" class="card-title">${d.name}</div>
                 <div class="meta" style="display:flex; gap:12px; font-size:0.7rem; color:#666; margin-bottom:8px; padding-bottom:6px; border-bottom:1px solid #eee;">
                     <span>📅 ${formatDate(d.createdAt)}</span>
                     ${d.updatedAt ? `<span>✏️ ${formatDate(d.updatedAt)}</span>` : ''}
                 </div>
                 <div class="card-stats">
-                    <div class="stat">🔥 <span>${d.calories}</span> ккал</div>
-                    <div class="stat">🟤 <span>${d.proteins}</span> б</div>
-                    <div class="stat">🟡 <span>${d.fats}</span> ж</div>
-                    <div class="stat">🟠 <span>${d.carbs}</span> у</div>
+                    <div class="stat">🔥 <span data-testid="dish-calories-value">${d.calories}</span> ккал</div>
+                    <div class="stat">🟤 <span data-testid="dish-proteins-value">${d.proteins}</span> б</div>
+                    <div class="stat">🟡 <span data-testid="dish-fats-value">${d.fats}</span> ж</div>
+                    <div class="stat">🟠 <span data-testid="dish-carbs-value">${d.carbs}</span> у</div>
                 </div>
                 <div class="card-tags">
-                    <span class="tag">${d.category}</span>
-                    ${d.flags !== 'None' ? d.flags.replace(/_/g, ' ').split(', ').map(f => `<span class="tag">${f}</span>`).join('') : '<span class="tag gray">Нет флагов</span>'}
+                    <span data-testid="dish-category-value" class="tag">${d.category}</span>
+                    ${d.flags !== 'None' ? d.flags.replace(/_/g, ' ').split(', ').map(f => `<span data-testid="dish-flag" class="tag">${f}</span>`).join('') : '<span class="tag gray">Нет флагов</span>'}
                 </div>
                 <div class="card-actions">
-                    <button onclick="event.stopPropagation(); viewDish('${d.id}')">👁️ Просмотр</button>
-                    <button onclick="event.stopPropagation(); showEditForm('${d.id}')">✏️</button>
-                    <button class="danger" onclick="event.stopPropagation(); deleteDish('${d.id}')">🗑️</button>
+                    <button data-testid="view-dish-btn" onclick="event.stopPropagation(); viewDish('${d.id}')">👁️ Просмотр</button>
+                    <button data-testid="edit-dish-btn" onclick="event.stopPropagation(); showEditForm('${d.id}')">✏️</button>
+                    <button data-testid="delete-dish-btn" class="danger" onclick="event.stopPropagation(); deleteDish('${d.id}')">🗑️</button>
                 </div>
             </div>
         </div>
@@ -425,10 +425,12 @@ async function addIngredientRow(productId = null, quantity = '') {
     const container = document.getElementById('ingredients');
     const row = document.createElement('div');
     row.className = 'ingredient-row';
+    row.setAttribute('data-testid', 'ingredient-row');
     row.style.cssText = 'display:flex; gap:10px; margin-bottom:8px; align-items:center;';
     
     const select = document.createElement('select');
     select.className = 'product-select';
+    select.setAttribute('data-testid', 'ingredient-select');
     select.style.flex = '2';
     select.innerHTML = '<option value="">Выберите продукт...</option>';
     
@@ -445,6 +447,7 @@ async function addIngredientRow(productId = null, quantity = '') {
     const quantityInput = document.createElement('input');
     quantityInput.type = 'number';
     quantityInput.className = 'quantity-input';
+    quantityInput.setAttribute('data-testid', 'ingredient-quantity');
     quantityInput.placeholder = 'г';
     quantityInput.step = '0.1';
     quantityInput.min = '0.1';
@@ -454,6 +457,7 @@ async function addIngredientRow(productId = null, quantity = '') {
     const removeBtn = document.createElement('button');
     removeBtn.type = 'button';
     removeBtn.className = 'danger';
+    removeBtn.setAttribute('data-testid', 'ingredient-remove');
     removeBtn.style.flex = '0';
     removeBtn.textContent = '✕';
     removeBtn.onclick = () => row.remove();
